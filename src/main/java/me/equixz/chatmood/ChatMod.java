@@ -1,7 +1,6 @@
 package me.equixz.chatmood;
 
 import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,5 +16,4 @@ public class ChatMod implements ModInitializer {
 		createFile("Crazy");
 		createFile("Uwu");
 	}
-
 }

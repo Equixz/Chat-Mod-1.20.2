@@ -35,9 +35,6 @@
 		],
 		"FileList": [
 			"me.equixz.chatmood.structure.FileList"
-		],
-		"ChatEvent": [
-			"me.equixz.chatmood.eventhandler.ChatEvent"
 		]
 	},
 	"mixins": [
