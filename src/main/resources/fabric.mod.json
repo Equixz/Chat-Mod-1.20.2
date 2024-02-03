@@ -35,6 +35,9 @@
 		],
 		"FileList": [
 			"me.equixz.chatmood.structure.FileList"
+		],
+		"ListFilesInFolder": [
+			"me.equixz.chatmood.structure.ListFilesInFolder"
 		]
 	},
 	"mixins": [

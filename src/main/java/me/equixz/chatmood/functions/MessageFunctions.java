@@ -6,13 +6,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static me.equixz.chatmood.ChatModClient.*;
-import static me.equixz.chatmood.structure.FileReader.*;
+import static me.equixz.chatmood.structure.FileReader.doesFileExist;
+import static me.equixz.chatmood.structure.FileReader.readFiles;
 
 public class MessageFunctions {
 
@@ -23,6 +25,7 @@ public class MessageFunctions {
     }
 
     public static void changeMessage(CommandContext<FabricClientCommandSource> context, String newMessage) {
+        // Your existing changeMessage logic
         messageToSend = newMessage;
 
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -33,7 +36,6 @@ public class MessageFunctions {
         }
         if (player != null)
             player.sendMessage(Text.literal("File output changed to: " + newMessage).formatted(Formatting.GREEN), false);
-
     }
 
     public static void changeCooldown(CommandContext<FabricClientCommandSource> context, String newCooldown) {

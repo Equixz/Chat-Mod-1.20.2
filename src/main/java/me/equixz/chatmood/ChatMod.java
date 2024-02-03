@@ -12,7 +12,6 @@ public class ChatMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("YO SHIT HEAD IF YOU SEE THIS U GAY ASF!!");
 		createFile("Crazy");
 		createFile("Uwu");
 	}
