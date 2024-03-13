@@ -3,14 +3,10 @@
 	"id": "chat-mod",
 	"version": "${version}",
 	"name": "Chat Mod",
-	"description": "Automation Mod for chat events & packets",
+	"description": "",
 	"authors": [
 		"Equixz"
 	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
 	"license": "MIT",
 	"icon": "assets/chat-mod/icon.png",
 	"environment": "*",
@@ -45,11 +41,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.3",
-		"minecraft": "~1.20.2",
+		"minecraft": "1.20.2",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

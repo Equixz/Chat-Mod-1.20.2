@@ -13,9 +13,9 @@ public class ExampleMixin {
     @Inject(at = @At("HEAD"), method = "onChatMessage")
     private void onChatMessage(@NotNull ChatMessageS2CPacket packet, CallbackInfo ci) {
         // Access the chat message from the packet
-        String message = String.valueOf(packet.getClass());
+        // String message = String.valueOf(packet.getClass());
 
         // Your custom logic here
-        System.out.println("Received packet: " + message);
+        // System.out.println("Received packet: " + message);
     }
 }
