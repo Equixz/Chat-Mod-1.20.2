@@ -1,9 +1,7 @@
 package me.equixz.chatmood;
 
-import com.mojang.brigadier.CommandDispatcher;
 import me.equixz.chatmood.commands.Message;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -30,7 +28,6 @@ public class ChatModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
         Message.registerCommands();
         END_CLIENT_TICK.register(this::onClientTick);
     }
