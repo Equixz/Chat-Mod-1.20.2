@@ -55,8 +55,14 @@ public class MessageFunctions {
     }
 
     public static void changeCooldown(CommandContext<FabricClientCommandSource> context, String newCooldown) {
-        delayIncrement = Integer.parseInt(newCooldown);
-        initialDelay = Integer.parseInt(newCooldown);
+        int cooldown = Integer.parseInt(newCooldown);
+        if (cooldown < 1250) {
+            context.getSource().sendError(Text.of("Cooldown value must be 1250 or higher."));
+            return;
+        }
+
+        delayIncrement = cooldown;
+        initialDelay = cooldown;
 
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
@@ -66,7 +72,6 @@ public class MessageFunctions {
         }
         if (player != null)
             player.sendMessage(Text.literal("Message cooldown changed to: " + newCooldown).formatted(Formatting.GREEN), false);
-
     }
 
     public static void changePrefix(String newPrefix) {

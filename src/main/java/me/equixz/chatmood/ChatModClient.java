@@ -22,8 +22,8 @@ public class ChatModClient implements ClientModInitializer {
     private static ChatModClient instance;
     public static String messageToSend = "Crazy";
     public static String prefixToUse = "";
-    public static int initialDelay = 1000;
-    public static String bombBellPrefix = "Snow Bell";
+    public static int initialDelay = 1500;
+    public static String bombBellPrefix = "[Snow Bell]";
     public static int delayIncrement = 1000;
 
     @Override
