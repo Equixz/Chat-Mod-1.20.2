@@ -12,7 +12,7 @@ public class FileReader {
 
     public static List<String> readFiles(String readFileName) {
         // Specify the folder path
-        String folderPath = "config/chatmod/";
+        String folderPath = "config/ChatMod/Files";
         // Create a Path object for the file
         Path filePath = Paths.get(folderPath, readFileName);
 
@@ -27,7 +27,7 @@ public class FileReader {
 
     public static boolean doesFileExist(String fileName) {
         // Specify the folder path
-        String folderPath = "config/chatmod/";
+        String folderPath = "config/ChatMod/Files";
 
         // Create a Path object for the file
         Path filePath = Paths.get(folderPath, fileName);

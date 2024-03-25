@@ -1,6 +1,5 @@
 package me.equixz.chatmood.commands;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -11,31 +10,36 @@ import me.equixz.chatmood.structure.ListFilesInFolder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.text.Text;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static me.equixz.chatmood.functions.MessageFunctions.changeCooldown;
-import static me.equixz.chatmood.functions.MessageFunctions.changePrefix;
+import static me.equixz.chatmood.functions.MessageFunctions.*;
 
 public class Message {
-    private static final String FOLDER_PATH = "config/ChatMod";
+    private static final String FOLDER_PATH = "config/ChatMod/Files";
 
-    public static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        registerBaseCommand(dispatcher);
+    public static void registerCommands() {
+        registerBaseCommand();
         registerCustomCommands();
     }
 
-    private static void registerBaseCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        // Base command "/cmsg"
-        System.out.println("Loading base command");
-        LiteralArgumentBuilder<FabricClientCommandSource> baseCommand = ClientCommandManager.literal("cmsg");
-        dispatcher.register(baseCommand);
+    private static void registerBaseCommand() {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            LiteralArgumentBuilder<FabricClientCommandSource> baseCommand = ClientCommandManager.literal("cmsg")
+                    .executes(context -> {
+                        // Provide usage feedback to the player if no argument is provided
+                        context.getSource().sendFeedback(Text.of("Usage: /cmsg <file>"));
+                        return 0;
+                    });
 
-        // Add a file argument with dynamic suggestions
-        baseCommand.then(ClientCommandManager.argument("file", StringArgumentType.word())
-                .suggests(Message::fileSuggestions)
-                .executes(Message::executeCommand));
+            dispatcher.register(baseCommand.then(
+                    ClientCommandManager.argument("file", StringArgumentType.word())
+                            .suggests(Message::fileSuggestions) // Suggests file names for completion
+                            .executes(Message::executeCommand) // Execute the command with the provided file
+            ));
+        });
     }
 
     private static CompletableFuture<Suggestions> fileSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
@@ -52,23 +56,46 @@ public class Message {
 
     private static int executeCommand(CommandContext<FabricClientCommandSource> context) {
         String fileName = StringArgumentType.getString(context, "file");
-        // Logic based on the selected file name
-        System.out.println("Selected file: " + fileName);
+        // Check if the file exists in the folder
+        if (fileExistsInFolder(fileName)) {
+            // If the file exists, execute the command
+            changeMessage(fileName);
+        } else {
+            // If the file doesn't exist, provide feedback to the player
+            context.getSource().sendError(Text.of("The specified file does not exist."));
+        }
+
         return 0; // Return the appropriate result
     }
 
+    private static boolean fileExistsInFolder(String fileName) {
+        // Check if the file exists in the folder
+        List<String> fileNames = ListFilesInFolder.listFilesWithoutExtension(FOLDER_PATH);
+        return fileNames.contains(fileName);
+    }
+
     public static void registerCustomCommands() {
-        // Add your custom commands here
-        System.out.println("Loading ccd & cpf command");
+        System.out.println("Loading ccd, cpf & cbpf command");
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
-                ClientCommandManager.literal("ccd")
-                        .then(ClientCommandManager.argument("message", IntegerArgumentType.integer())
-                                .executes(context -> {
-                                    String customMessage = String.valueOf(IntegerArgumentType.getInteger(context, "message"));
-                                    changeCooldown(context, customMessage);
-                                    return 0;
-                                })
-                        )
+            ClientCommandManager.literal("ccd")
+                .then(ClientCommandManager.argument("message", IntegerArgumentType.integer())
+                    .executes(context -> {
+                        String customMessage = String.valueOf(IntegerArgumentType.getInteger(context, "message"));
+                        changeCooldown(context, customMessage);
+                        return 0;
+                    })
+                )
+        ));
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
+            ClientCommandManager.literal("cbpf")
+                .then(ClientCommandManager.argument("message", StringArgumentType.greedyString()) // Changed argument type to greedyString
+                    .executes(context -> {
+                        String customMessage = StringArgumentType.getString(context, "message");
+                        changeBombBellPrefix(context, customMessage);
+                        return 0;
+                    })
+                )
         ));
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(

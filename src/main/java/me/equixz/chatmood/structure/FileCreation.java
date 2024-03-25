@@ -8,7 +8,7 @@ public class FileCreation {
 
     public static void createFile(String newFileName) {
         // Specify the folder path
-        String folderPath = "config/ChatMod";
+        String folderPath = "config/ChatMod/Files";
 
         // Specify the file name
         String fileName = newFileName + ".txt";

@@ -24,17 +24,33 @@ public class MessageFunctions {
         }
     }
 
-    public static void changeMessage(CommandContext<FabricClientCommandSource> context, String newMessage) {
-        // Your existing changeMessage logic
+    public static void changeBombBellPrefix(CommandContext<FabricClientCommandSource> context, String newPrefix) {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        bombBellPrefix = newPrefix;
+        if (newPrefix.length() <= 15) {
+            if (newPrefix.isEmpty()) {
+                context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
+                return;
+            }
+            if (player != null)
+                player.sendMessage(Text.literal("Bomb Bell prefix changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+        } else {
+            context.getSource().sendFeedback(Text.literal("Please provide a prefix that's under 15 characters!").formatted(Formatting.RED));
+        }
+
+    }
+
+    public static void changeMessage(String newMessage) {
         messageToSend = newMessage;
 
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-        if (newMessage.isEmpty()) {
-            context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
+        if (newMessage.isEmpty() && player != null) {
+            player.sendMessage(Text.literal("Please provide an existing file name!").formatted(Formatting.RED), false);
             return;
         }
         if (player != null)
+
             player.sendMessage(Text.literal("File output changed to: " + newMessage).formatted(Formatting.GREEN), false);
     }
 

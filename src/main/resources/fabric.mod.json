@@ -17,23 +17,8 @@
 		"client": [
 			"me.equixz.chatmood.ChatModClient"
 		],
-		"commands": [
-			"me.equixz.chatmood.commands.Message"
-		],
-		"CommandFunctions": [
-			"me.equixz.chatmood.functions.MessageFunctions"
-		],
-		"FileCreation": [
-			"me.equixz.chatmood.structure.FileCreation"
-		],
-		"FileReader": [
-			"me.equixz.chatmood.structure.FileReader"
-		],
-		"FileList": [
-			"me.equixz.chatmood.structure.FileList"
-		],
-		"ListFilesInFolder": [
-			"me.equixz.chatmood.structure.ListFilesInFolder"
+		"modmenu": [
+			"me.equixz.chatmood.Config"
 		]
 	},
 	"mixins": [
@@ -43,6 +28,7 @@
 		"fabricloader": ">=0.15.3",
 		"minecraft": "1.20.2",
 		"java": ">=17",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"modmenu": ">=8.0.1"
 	}
 }

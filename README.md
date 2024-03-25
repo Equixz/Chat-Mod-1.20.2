@@ -11,4 +11,4 @@ Yes that's all the extra info you get.<br>
 Also im too lazy to figure out how branches work, so I have a working version but no branch for it.
 
 ## Errors 
-- The mod crashes the game, cant find the reason to why so yes imma gonna leave it here for me for another day.
+- No problems yet.
