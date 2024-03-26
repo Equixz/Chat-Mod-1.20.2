@@ -1,6 +1,6 @@
 package me.equixz.chatmood.mixin;
 
-import me.equixz.chatmood.ChatModClient;
+import me.equixz.chatmood.functions.receiveMessage;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.Text;
@@ -14,6 +14,6 @@ public class onChatMixin {
     @Inject(method = "onGameMessage(Lnet/minecraft/network/packet/s2c/play/GameMessageS2CPacket;)V", at = @At("HEAD"))
     private void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci) {
         Text message = packet.content();
-        ChatModClient.getInstance().receiveMessage(message);
+        receiveMessage.getInstance().receiveMessages(message);
     }
 }

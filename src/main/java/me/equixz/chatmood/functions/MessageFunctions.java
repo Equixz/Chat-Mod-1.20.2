@@ -26,7 +26,7 @@ public class MessageFunctions {
 
     public static void changeBombBellPrefix(CommandContext<FabricClientCommandSource> context, String newPrefix) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        bombBellPrefix = newPrefix;
+        receiveMessage.bombBellPrefix = newPrefix;
         if (newPrefix.length() <= 15) {
             if (newPrefix.isEmpty()) {
                 context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
@@ -80,13 +80,23 @@ public class MessageFunctions {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
         if (player != null)
-            player.sendMessage(Text.literal("Message prefix changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+            player.sendMessage(Text.literal("Message chat changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+
+    }
+
+    public static void changePrefixBombbell(String newPrefix) {
+        prefixBombbellToUse = newPrefix;
+
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+        if (player != null)
+            player.sendMessage(Text.literal("Bomb Bell chat changed to: " + newPrefix).formatted(Formatting.GREEN), false);
 
     }
 
     public static void sendChatMessage() {
         // Get the file name based on the message
-        String fileName = messageToSend + ".txt"; // Adjust the file name based on your naming convention
+        String fileName = messageToSend + ".txt"; // Adjust the file name based on naming convention
 
         // Check if the file exists
         if (!doesFileExist(fileName)) {

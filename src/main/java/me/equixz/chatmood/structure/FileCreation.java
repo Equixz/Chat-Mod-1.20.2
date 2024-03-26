@@ -5,7 +5,6 @@ import static me.equixz.chatmood.ChatMod.LOGGER;
 
 public class FileCreation {
 
-
     public static void createFile(String newFileName) {
         // Specify the folder path
         String folderPath = "config/ChatMod/Files";

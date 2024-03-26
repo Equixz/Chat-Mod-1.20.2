@@ -1,4 +1,4 @@
-package me.equixz.chatmood;
+package me.equixz.chatmood.config;
 
 import com.google.gson.Gson;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -114,5 +115,22 @@ public class Config implements ModMenuApi {
                 throw new RuntimeException(e);
             }
         }
+
+        public static void toggleFeature(String featureName, boolean newValue) {
+            ConfigData configData = getConfigData();
+            try {
+                Field field = ConfigData.class.getDeclaredField(featureName);
+                field.setBoolean(configData, newValue);
+                configData.save();
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
+    public static void toggleFeature(String featureName, boolean newValue) {
+        ConfigData.toggleFeature(featureName, newValue);
+    }
+
 }

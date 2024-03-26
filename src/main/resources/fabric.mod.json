@@ -18,7 +18,7 @@
 			"me.equixz.chatmood.ChatModClient"
 		],
 		"modmenu": [
-			"me.equixz.chatmood.Config"
+          "me.equixz.chatmood.config.Config"
 		]
 	},
 	"mixins": [

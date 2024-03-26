@@ -4,15 +4,38 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 import static me.equixz.chatmood.structure.FileCreation.createFile;
+import static me.equixz.chatmood.structure.LoadData.downloadFile;
 
 public class ChatMod implements ModInitializer {
 	public static final String MOD_ID = "chat-mod";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitialize() {
 		createFile("Crazy");
 		createFile("Uwu");
+		String fileName = "Crazy.txt";
+		String rawLink = "https://pastebin.com/raw/D4qNzZEU";
+		if (!isFileEmpty(fileName)) {
+			LOGGER.info("File {} is not empty. Skipping download.", fileName);
+		} else {
+			downloadFile(fileName, rawLink);
+		}
+
+		fileName = "config/ChatMod/Files/Uwu.txt";
+		rawLink = "https://pastebin.com/raw/zrv1X1SH";
+		if (!isFileEmpty(fileName)) {
+			LOGGER.info("File {} is not empty. Skipping download.", fileName);
+		} else {
+			downloadFile(fileName, rawLink);
+		}
+	}
+
+	private boolean isFileEmpty(String fileName) {
+		File file = new File(fileName);
+		return file.exists() && file.length() == 0;
 	}
 }
