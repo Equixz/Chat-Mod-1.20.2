@@ -95,19 +95,13 @@ object Message {
                         if (newValue == currentValue) {
                             // Feature is already in the desired state
                             context.source.sendFeedback(
-                                Text.literal("Feature " + fieldName + " is already " + (if (newValue) "enabled" else "disabled"))
-                                    .formatted(
-                                        Formatting.RED
-                                    )
+                                Text.literal("Feature " + fieldName + " is already " + (if (newValue) "enabled" else "disabled")).formatted(Formatting.RED)
                             )
                         } else {
                             // Toggle the feature
                             Config.toggleFeature(fieldName, newValue)
                             context.source.sendFeedback(
-                                Text.literal("Feature " + fieldName + " " + (if (newValue) "enabled" else "disabled"))
-                                    .formatted(
-                                        Formatting.GREEN
-                                    )
+                                Text.literal("Feature " + fieldName + " " + (if (newValue) "enabled" else "disabled")).formatted(Formatting.GREEN)
                             )
                         }
                         0

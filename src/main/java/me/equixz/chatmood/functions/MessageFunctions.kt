@@ -1,7 +1,7 @@
 package me.equixz.chatmood.functions
 
 import com.mojang.brigadier.context.CommandContext
-import me.equixz.chatmood.ChatModClient
+import me.equixz.chatmood.config.Config
 import me.equixz.chatmood.structure.FileReader
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.client.MinecraftClient
@@ -11,6 +11,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 object MessageFunctions {
+    private var isSendingMessage: Boolean = false
     fun sendMessage(prefix: String, message: String?) {
         if (MinecraftClient.getInstance().player != null) {
             MinecraftClient.getInstance().player!!.networkHandler.sendChatMessage(prefix + message)
@@ -41,18 +42,16 @@ object MessageFunctions {
     }
 
     fun changeMessage(newMessage: String) {
-        ChatModClient.messageToSend = newMessage
-
+        val configData = Config.getConfigData() ?: return
+        configData.messageToSend = newMessage
+        configData.save()
         val player = MinecraftClient.getInstance().player
-
         if (newMessage.isEmpty() && player != null) {
             player.sendMessage(Text.literal("Please provide an existing file name!").formatted(Formatting.RED), false)
             return
         }
         player?.sendMessage(
-            Text.literal("File output changed to: $newMessage")
-                .formatted(Formatting.GREEN), false
-        )
+            Text.literal("File output changed to: $newMessage").formatted(Formatting.GREEN), false)
     }
 
     fun changeCooldown(context: CommandContext<FabricClientCommandSource>, newCooldown: String) {
@@ -61,55 +60,62 @@ object MessageFunctions {
             context.source.sendError(Text.of("Cooldown value must be 1250 or higher."))
             return
         }
-
-        ChatModClient.delayIncrement = cooldown
-        ChatModClient.initialDelay = cooldown
-
+        val configData = Config.getConfigData() ?: return
+        configData.initialDelay = cooldown
+        configData.save()
         val player = MinecraftClient.getInstance().player
-
         if (newCooldown.isEmpty()) {
             context.source.sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED))
             return
         }
         player?.sendMessage(
-            Text.literal("Message cooldown changed to: $newCooldown")
-                .formatted(Formatting.GREEN), false
-        )
+            Text.literal("Message cooldown changed to: $newCooldown").formatted(Formatting.GREEN), false)
     }
 
     fun changePrefix(newPrefix: String) {
-        ChatModClient.prefixToUse = newPrefix
-
+        val configData = Config.getConfigData() ?: return
+        configData.prefixToUse = newPrefix
+        configData.save()
         val player = MinecraftClient.getInstance().player
-
         player?.sendMessage(
-            Text.literal("Message chat changed to: $newPrefix")
-                .formatted(Formatting.GREEN), false
-        )
+            Text.literal("Message chat changed to: $newPrefix").formatted(Formatting.GREEN), false)
     }
 
     fun changePrefixBombbell(newPrefix: String) {
-        ChatModClient.prefixBombbellToUse = newPrefix
-
+        val configData = Config.getConfigData() ?: return
+        configData.prefixBombbellToUse = newPrefix
+        configData.save()
         val player = MinecraftClient.getInstance().player
-
         player?.sendMessage(
-            Text.literal("Bomb Bell chat changed to: $newPrefix")
-                .formatted(Formatting.GREEN), false
-        )
+            Text.literal("Bomb Bell chat changed to: $newPrefix").formatted(Formatting.GREEN), false)
     }
 
     fun sendChatMessage() {
+        // Check if message sending is already in progress
+        if (isSendingMessage) {
+            val player = MinecraftClient.getInstance().player
+            player?.sendMessage(
+                Text.literal("A message is already being sent. Please wait for it to finish.").formatted(Formatting.RED),
+                false
+            )
+            return
+        }
+
+        // Set the flag to indicate that message sending is in progress
+        isSendingMessage = true
+
         // Get the file name based on the message
-        val fileName: String =
-            ChatModClient.messageToSend + ".txt" // Adjust the file name based on naming convention
+        val fileName: String = Config.getConfigData()?.messageToSend + ".txt" // Adjust the file name based on naming convention
 
         // Check if the file exists
         if (!FileReader.doesFileExist(fileName)) {
             val player = MinecraftClient.getInstance().player
             player?.sendMessage(Text.literal("The file doesn't exist.").formatted(Formatting.RED), false)
+            // Reset the flag since message sending is done
+            isSendingMessage = false
             return
         }
+
         // Read the lines from the file
         val lines = FileReader.readFiles(fileName)
 
@@ -117,18 +123,23 @@ object MessageFunctions {
         val executorService = Executors.newSingleThreadScheduledExecutor()
 
         // Schedule tasks with increasing delays
-        var currentDelay: Long = ChatModClient.initialDelay.toLong()
+        var currentDelay: Long = Config.getConfigData()?.initialDelay?.toLong() ?: 0L
         for (line in lines) {
             executorService.schedule({
                 try {
-                    sendMessage(ChatModClient.prefixToUse, line)
+                    sendMessage(Config.getConfigData()?.prefixToUse ?: "", line)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }, currentDelay, TimeUnit.MILLISECONDS)
-            currentDelay += ChatModClient.delayIncrement.toLong()
+            currentDelay += Config.getConfigData()?.initialDelay?.toLong() ?: 0L
         }
+
         // Shutdown the executor service after all tasks are done
-        executorService.shutdown()
+        executorService.schedule({
+            executorService.shutdown()
+            // Reset the flag since message sending is done
+            isSendingMessage = false
+        }, currentDelay, TimeUnit.MILLISECONDS)
     }
 }

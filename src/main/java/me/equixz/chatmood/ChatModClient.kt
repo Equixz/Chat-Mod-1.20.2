@@ -1,6 +1,7 @@
 package me.equixz.chatmood
 
 import me.equixz.chatmood.commands.Message
+import me.equixz.chatmood.config.Config
 import me.equixz.chatmood.functions.MessageFunctions
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -23,14 +24,24 @@ class ChatModClient : ClientModInitializer {
     }
 
     companion object {
-        var messageToSend: String = "Crazy"
-        var prefixToUse: String = ""
-        var prefixBombbellToUse: String = "/g "
-        var initialDelay: Int = 1500
-        var delayIncrement: Int = 1500
+        private var messageToSend: String = Config.getConfigData()?.messageToSend ?: "Crazy"
+        private var prefixToUse: String = Config.getConfigData()?.prefixToUse ?: ""
+        private var prefixBombbellToUse: String = Config.getConfigData()?.prefixBombbellToUse ?: "/g "
+        private var initialDelay: Int = Config.getConfigData()?.initialDelay ?: 1250
 
         private val sendMessageKey: KeyBinding = KeyBindingHelper.registerKeyBinding(
             KeyBinding("Send Group Messages", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.code, "ChatMod")
         )
+        init {
+            updateConfigValues()
+            Config.saveConfigData()
+        }
+        private fun updateConfigValues() {
+            val configData = Config.getConfigData()
+            messageToSend = configData?.messageToSend ?: "Crazy"
+            prefixToUse = configData?.prefixToUse ?: ""
+            prefixBombbellToUse = configData?.prefixBombbellToUse ?: "/g "
+            configData?.initialDelay = initialDelay.coerceAtLeast(1250)
+        }
     }
 }

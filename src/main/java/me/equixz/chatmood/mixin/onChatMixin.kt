@@ -16,6 +16,6 @@ class onChatMixin {
     )
     private fun onGameMessage(packet: GameMessageS2CPacket, ci: CallbackInfo) {
         val message = packet.content()
-        receiveMessage.getInstance().receiveMessages(message)
+        receiveMessage.getReceiveMessageInstance().receiveMessages(message)
     }
 }

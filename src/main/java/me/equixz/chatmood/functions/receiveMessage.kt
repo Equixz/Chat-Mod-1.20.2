@@ -1,6 +1,5 @@
 package me.equixz.chatmood.functions
 
-import me.equixz.chatmood.ChatModClient
 import me.equixz.chatmood.config.Config
 import net.minecraft.text.Text
 
@@ -30,35 +29,21 @@ class receiveMessage {
                     bombType = parts[0].trim { it <= ' ' }
                     wcNumber = parts[1].trim { it <= ' ' }
                 }
+                val bombBellPrefix = Config.getConfigData()?.prefixBombbellToUse ?: ""
                 if (bombType == "Combat XP Bomb" && Config.getConfigData()!!.combatXpBombEnabled) {
-                    MessageFunctions.sendMessage(
-                        ChatModClient.prefixBombbellToUse,
-                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
-                    )
+                    MessageFunctions.sendMessage(bombBellPrefix, "$bombBellPrefix A $bombType has been thrown on world $wcNumber")
                 }
                 if (bombType == "Profession XP Bomb" && Config.getConfigData()!!.professionXpBombEnabled) {
-                    MessageFunctions.sendMessage(
-                        ChatModClient.prefixBombbellToUse,
-                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
-                    )
+                    MessageFunctions.sendMessage(bombBellPrefix, "$bombBellPrefix A $bombType has been thrown on world $wcNumber")
                 }
                 if (bombType == "Profession Speed Bomb" && Config.getConfigData()!!.professionSpeedBombEnabled) {
-                    MessageFunctions.sendMessage(
-                        ChatModClient.prefixBombbellToUse,
-                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
-                    )
+                    MessageFunctions.sendMessage(bombBellPrefix, "$bombBellPrefix A $bombType has been thrown on world $wcNumber")
                 }
                 if (bombType == "Dungeon Bomb" && Config.getConfigData()!!.dungeonBombEnabled) {
-                    MessageFunctions.sendMessage(
-                        ChatModClient.prefixBombbellToUse,
-                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
-                    )
+                    MessageFunctions.sendMessage(bombBellPrefix, "$bombBellPrefix A $bombType has been thrown on world $wcNumber")
                 }
                 if (bombType == "Loot Bomb" && Config.getConfigData()!!.lootBombEnabled) {
-                    MessageFunctions.sendMessage(
-                        ChatModClient.prefixBombbellToUse,
-                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
-                    )
+                    MessageFunctions.sendMessage(bombBellPrefix, "$bombBellPrefix A $bombType has been thrown on world $wcNumber")
                 }
             }
         }
@@ -74,7 +59,8 @@ class receiveMessage {
                 return field
             }
 
-        fun getInstance(): receiveMessage {
+        @JvmStatic
+        fun getReceiveMessageInstance(): receiveMessage {
             return instance ?: receiveMessage()
         }
     }

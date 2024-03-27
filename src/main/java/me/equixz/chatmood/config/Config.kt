@@ -25,7 +25,11 @@ class Config : ModMenuApi {
         var professionXpBombEnabled: Boolean,
         var professionSpeedBombEnabled: Boolean,
         var dungeonBombEnabled: Boolean,
-        var lootBombEnabled: Boolean
+        var lootBombEnabled: Boolean,
+        var initialDelay: Int,
+        var messageToSend: String,
+        var prefixToUse: String,
+        var prefixBombbellToUse: String
     ) {
         fun save() {
             try {
@@ -47,8 +51,12 @@ class Config : ModMenuApi {
                     professionXpBombEnabled = true,
                     professionSpeedBombEnabled = true,
                     dungeonBombEnabled = true,
-                    lootBombEnabled = true
-                ) // Change the default value as needed
+                    lootBombEnabled = true,
+                    initialDelay = 1250,
+                    messageToSend = "Crazy",
+                    prefixToUse = "",
+                    prefixBombbellToUse = "/g "
+                )
 
             fun toggleFeature(featureName: String?, newValue: Boolean) {
                 val configData = getConfigData()
@@ -155,6 +163,10 @@ class Config : ModMenuApi {
 
         fun toggleFeature(featureName: String?, newValue: Boolean) {
             ConfigData.toggleFeature(featureName, newValue)
+        }
+
+        fun saveConfigData() {
+            configData?.save()
         }
     }
 }
