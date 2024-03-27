@@ -1,48 +1,47 @@
-package me.equixz.chatmood;
+package me.equixz.chatmood
 
-import net.fabricmc.api.ModInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.equixz.chatmood.structure.FileCreation
+import me.equixz.chatmood.structure.LoadData
+import net.fabricmc.api.ModInitializer
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.io.File
 
-import java.io.File;
+class ChatMod : ModInitializer {
+    override fun onInitialize() {
+        FileCreation.createFile("Crazy")
+        FileCreation.createFile("Uwu")
+        var fileName = "Crazy.txt"
+        var rawLink = "https://pastebin.com/raw/D4qNzZEU"
+        if (!isFileEmpty(fileName)) {
+            LOGGER.info("File {} is not empty. Skipping download.", fileName)
+        } else {
+            LoadData.downloadFile(fileName, rawLink)
+        }
 
-import static me.equixz.chatmood.structure.FileCreation.createFile;
-import static me.equixz.chatmood.structure.LoadData.downloadFile;
+        fileName = "Uwu.txt"
+        rawLink = "https://pastebin.com/raw/zrv1X1SH"
+        if (!isFileEmpty(fileName)) {
+            LOGGER.info("File {} is not empty. Skipping download.", fileName)
+        } else {
+            LoadData.downloadFile(fileName, rawLink)
+        }
+    }
 
-public class ChatMod implements ModInitializer {
-	public static final String MOD_ID = "chat-mod";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    private fun isFileEmpty(fileName: String): Boolean {
+        val filePath = "config/ChatMod/Files/"
+        val file = File(filePath, fileName)
+        if (file.exists()) {
+            return file.length() == 0L
+        } else {
+            // Handle case where file doesn't exist
+            LOGGER.warn("File {} does not exist.", fileName)
+            return false
+        }
+    }
 
-	@Override
-	public void onInitialize() {
-		createFile("Crazy");
-		createFile("Uwu");
-		String fileName = "Crazy.txt";
-		String rawLink = "https://pastebin.com/raw/D4qNzZEU";
-		if (!isFileEmpty(fileName)) {
-			LOGGER.info("File {} is not empty. Skipping download.", fileName);
-		} else {
-			downloadFile(fileName, rawLink);
-		}
-
-		fileName = "Uwu.txt";
-		rawLink = "https://pastebin.com/raw/zrv1X1SH";
-		if (!isFileEmpty(fileName)) {
-			LOGGER.info("File {} is not empty. Skipping download.", fileName);
-		} else {
-			downloadFile(fileName, rawLink);
-		}
-	}
-
-	private boolean isFileEmpty(String fileName) {
-		String filePath = "config/ChatMod/Files/";
-		File file = new File(filePath, fileName);
-		if (file.exists()) {
-			return file.length() == 0;
-		} else {
-			// Handle case where file doesn't exist
-			LOGGER.warn("File {} does not exist.", fileName);
-			return false;
-		}
-	}
+    companion object {
+        private const val MOD_ID: String = "chat-mod"
+        val LOGGER: Logger = LoggerFactory.getLogger(MOD_ID)
+    }
 }

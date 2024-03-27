@@ -1,37 +1,41 @@
-package me.equixz.chatmood.structure;
+package me.equixz.chatmood.structure
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
+import me.equixz.chatmood.ChatMod
+import java.io.BufferedReader
+import java.io.FileWriter
+import java.io.IOException
+import java.io.InputStreamReader
+import java.net.URL
 
-import static me.equixz.chatmood.ChatMod.LOGGER;
-
-public class LoadData {
-
+object LoadData {
     // Define a constant for the folder path
-    private static final String pathToFolder = "config/ChatMod/Files/";
+    private const val PATH_TO_FOLDER = "config/ChatMod/Files/"
 
-    public static void downloadFile(String fileName, String rawLink) {
+    fun downloadFile(fileName: String, rawLink: String?) {
         // Construct the full file path
-        String filePath = pathToFolder + fileName;
+        val filePath = PATH_TO_FOLDER + fileName
 
         try {
-            URL url = new URL(rawLink);
-            URLConnection connection = url.openConnection();
-            try (InputStream inputStream = connection.getInputStream();
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                 FileWriter writer = new FileWriter(filePath)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    writer.write(line);
-                    writer.write("\n"); // Add newline character after each line
+            val url = URL(rawLink)
+            val connection = url.openConnection()
+            try {
+                connection.getInputStream().use { inputStream ->
+                    BufferedReader(InputStreamReader(inputStream)).use { reader ->
+                        FileWriter(filePath).use { writer ->
+                            var line: String?
+                            while ((reader.readLine().also { line = it }) != null) {
+                                line?.let { writer.write(it) }
+                                writer.write("\n") // Add newline character after each line
+                            }
+                            ChatMod.LOGGER.info("File downloaded successfully: $filePath")
+                        }
+                    }
                 }
-                LOGGER.info("File downloaded successfully: " + filePath);
-            } catch (IOException e) {
-                LOGGER.warn("Error writing to file: " + e.getMessage());
+            } catch (e: IOException) {
+                ChatMod.LOGGER.warn("Error writing to file: " + e.message)
             }
-        } catch (IOException e) {
-            LOGGER.warn("Error downloading file: " + e.getMessage());
+        } catch (e: IOException) {
+            ChatMod.LOGGER.warn("Error downloading file: " + e.message)
         }
     }
 }

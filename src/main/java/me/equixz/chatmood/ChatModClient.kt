@@ -1,35 +1,36 @@
-package me.equixz.chatmood;
+package me.equixz.chatmood
 
-import me.equixz.chatmood.commands.Message;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import me.equixz.chatmood.commands.Message
+import me.equixz.chatmood.functions.MessageFunctions
+import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.util.InputUtil
 
-import static me.equixz.chatmood.functions.MessageFunctions.sendChatMessage;
-import static net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK;
-
-public class ChatModClient implements ClientModInitializer {
-    public static String messageToSend = "Crazy";
-    public static String prefixToUse = "";
-    public static String prefixBombbellToUse = "/g ";
-    public static int initialDelay = 1500;
-    public static int delayIncrement = 1500;
-
-    private static final KeyBinding sendMessageKey = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("Send Group Messages", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "ChatMod")
-    );
-
-    @Override
-    public void onInitializeClient() {
-        Message.registerBaseCommand();
-        END_CLIENT_TICK.register(this::onClientTick);
+class ChatModClient : ClientModInitializer {
+    override fun onInitializeClient() {
+        Message.registerBaseCommand()
+        ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick {
+            this.onClientTick()
+        })
     }
 
-    private void onClientTick(MinecraftClient client) {
+    private fun onClientTick() {
         if (sendMessageKey.wasPressed()) {
-            sendChatMessage();
+            MessageFunctions.sendChatMessage()
         }
+    }
+
+    companion object {
+        var messageToSend: String = "Crazy"
+        var prefixToUse: String = ""
+        var prefixBombbellToUse: String = "/g "
+        var initialDelay: Int = 1500
+        var delayIncrement: Int = 1500
+
+        private val sendMessageKey: KeyBinding = KeyBindingHelper.registerKeyBinding(
+            KeyBinding("Send Group Messages", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.code, "ChatMod")
+        )
     }
 }

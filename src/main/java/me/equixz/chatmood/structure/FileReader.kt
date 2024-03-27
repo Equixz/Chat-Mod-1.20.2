@@ -1,38 +1,34 @@
-package me.equixz.chatmood.structure;
+package me.equixz.chatmood.structure
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import me.equixz.chatmood.ChatMod
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 
-import static me.equixz.chatmood.ChatMod.LOGGER;
-
-public class FileReader {
-
-    public static List<String> readFiles(String readFileName) {
+object FileReader {
+    fun readFiles(readFileName: String?): List<String> {
         // Specify the folder path
-        String folderPath = "config/ChatMod/Files";
+        val folderPath = "config/ChatMod/Files"
         // Create a Path object for the file
-        Path filePath = Paths.get(folderPath, readFileName);
+        val filePath = Paths.get(folderPath, readFileName)
 
         try {
             // Return the list of lines
-            return Files.readAllLines(filePath);
-        } catch (IOException e) {
-            LOGGER.info("An error occurred while reading the file: " + e.getMessage());
-            return List.of(); // Return an empty list or handle appropriately
+            return Files.readAllLines(filePath)
+        } catch (e: IOException) {
+            ChatMod.LOGGER.info("An error occurred while reading the file: " + e.message)
+            return listOf() // Return an empty list or handle appropriately
         }
     }
 
-    public static boolean doesFileExist(String fileName) {
+    fun doesFileExist(fileName: String?): Boolean {
         // Specify the folder path
-        String folderPath = "config/ChatMod/Files";
+        val folderPath = "config/ChatMod/Files"
 
         // Create a Path object for the file
-        Path filePath = Paths.get(folderPath, fileName);
+        val filePath = Paths.get(folderPath, fileName)
 
         // Check if the file exists
-        return Files.exists(filePath);
+        return Files.exists(filePath)
     }
 }

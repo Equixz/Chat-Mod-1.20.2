@@ -1,41 +1,41 @@
-package me.equixz.chatmood.structure;
+package me.equixz.chatmood.structure
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File
 
-public class ListFilesInFolder {
-    public static List<String> listFilesWithoutExtension(String folderPath) {
-        List<String> fileNamesWithoutExtension = new ArrayList<>();
+object ListFilesInFolder {
+    fun listFilesWithoutExtension(folderPath: String?): List<String> {
+        val fileNamesWithoutExtension: MutableList<String> = ArrayList()
 
         // Create a File object for the folder
-        File folder = new File(folderPath);
+        val folder = folderPath?.let { File(it) }
 
         // Check if the path is a directory
-        if (folder.isDirectory()) {
-            // Get the list of files in the folder
-            File[] files = folder.listFiles();
+        if (folder != null) {
+            if (folder.isDirectory) {
+                // Get the list of files in the folder
+                val files = folder.listFiles()
 
-            // Check if there are any files
-            if (files != null) {
-                for (File file : files) {
-                    // Get the file name without extension
-                    String fileNameWithoutExtension = getFileNameWithoutExtension(file);
-                    fileNamesWithoutExtension.add(fileNameWithoutExtension);
+                // Check if there are any files
+                if (files != null) {
+                    for (file in files) {
+                        // Get the file name without extension
+                        val fileNameWithoutExtension = getFileNameWithoutExtension(file)
+                        fileNamesWithoutExtension.add(fileNameWithoutExtension)
+                    }
                 }
             }
         }
 
-        return fileNamesWithoutExtension;
+        return fileNamesWithoutExtension
     }
 
-    private static String getFileNameWithoutExtension(File file) {
-        String fileName = file.getName();
-        int lastDotIndex = fileName.lastIndexOf('.');
-        if (lastDotIndex != -1) {
-            return fileName.substring(0, lastDotIndex);
+    private fun getFileNameWithoutExtension(file: File): String {
+        val fileName = file.name
+        val lastDotIndex = fileName.lastIndexOf('.')
+        return if (lastDotIndex != -1) {
+            fileName.substring(0, lastDotIndex)
         } else {
-            return fileName;
+            fileName
         }
     }
 }

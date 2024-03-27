@@ -1,66 +1,81 @@
-package me.equixz.chatmood.functions;
+package me.equixz.chatmood.functions
 
-import me.equixz.chatmood.config.Config;
-import net.minecraft.text.Text;
+import me.equixz.chatmood.ChatModClient
+import me.equixz.chatmood.config.Config
+import net.minecraft.text.Text
 
-import java.util.Objects;
-
-import static me.equixz.chatmood.ChatModClient.prefixBombbellToUse;
-import static me.equixz.chatmood.functions.MessageFunctions.sendMessage;
-
-public class receiveMessage {
-
-    public static String bombBellPrefix = "[Snow Bell]";
-    private static receiveMessage instance;
-
-    public void receiveMessages(Text message) {
-        if(Config.getConfigData().BombBellState){
+class receiveMessage {
+    fun receiveMessages(message: Text) {
+        if (Config.getConfigData()!!.bombBellState) {
             // Convert Text to unformatted string (removing formatting codes)
-            String unformattedMessage = message.getString().replaceAll("(?i)§[0-9A-FK-ORXa-fk-orx]", "");
+            var unformattedMessage = message.string.replace("(?i)§[0-9A-FK-ORXa-fk-orx]".toRegex(), "")
 
             // Check if the unformatted message starts with "[Bomb Bell]"
-            String bombType = null;
-            String wcNumber = null;
+            var bombType: String? = null
+            var wcNumber: String? = null
             if (unformattedMessage.startsWith("[Bomb Bell]")) {
                 // Remove the "[Bomb Bell]" substring from the message
-                unformattedMessage = unformattedMessage.substring("[Bomb Bell]".length()).trim();
+                unformattedMessage = unformattedMessage.substring("[Bomb Bell]".length).trim { it <= ' ' }
 
                 // Find the index of "thrown a" in the message
-                int thrownIndex = unformattedMessage.indexOf("thrown a");
+                val thrownIndex = unformattedMessage.indexOf("thrown a")
                 if (thrownIndex != -1) {
                     // Remove the "thrown a" substring from the message
-                    unformattedMessage = unformattedMessage.substring(thrownIndex + "thrown a".length()).trim();
+                    unformattedMessage =
+                        unformattedMessage.substring(thrownIndex + "thrown a".length).trim { it <= ' ' }
                 }
                 // Split the message into bomb type and WC number
-                String[] parts = unformattedMessage.split("on WC");
-                if (parts.length == 2) {
-                    bombType = parts[0].trim();
-                    wcNumber = parts[1].trim();
+                val parts = unformattedMessage.split("on WC".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                if (parts.size == 2) {
+                    bombType = parts[0].trim { it <= ' ' }
+                    wcNumber = parts[1].trim { it <= ' ' }
                 }
-                if(Objects.equals(bombType, "Combat XP Bomb") && Config.getConfigData().combatXpBombEnabled){
-                    sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                if (bombType == "Combat XP Bomb" && Config.getConfigData()!!.combatXpBombEnabled) {
+                    MessageFunctions.sendMessage(
+                        ChatModClient.prefixBombbellToUse,
+                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
+                    )
                 }
-                if(Objects.equals(bombType, "Profession XP Bomb") && Config.getConfigData().professionXpBombEnabled){
-                    sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                if (bombType == "Profession XP Bomb" && Config.getConfigData()!!.professionXpBombEnabled) {
+                    MessageFunctions.sendMessage(
+                        ChatModClient.prefixBombbellToUse,
+                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
+                    )
                 }
-                if(Objects.equals(bombType, "Profession Speed Bomb") && Config.getConfigData().professionSpeedBombEnabled){
-                    sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                if (bombType == "Profession Speed Bomb" && Config.getConfigData()!!.professionSpeedBombEnabled) {
+                    MessageFunctions.sendMessage(
+                        ChatModClient.prefixBombbellToUse,
+                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
+                    )
                 }
-                if(Objects.equals(bombType, "Dungeon Bomb") && Config.getConfigData().dungeonBombEnabled){
-                    sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                if (bombType == "Dungeon Bomb" && Config.getConfigData()!!.dungeonBombEnabled) {
+                    MessageFunctions.sendMessage(
+                        ChatModClient.prefixBombbellToUse,
+                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
+                    )
                 }
-                if(Objects.equals(bombType, "Loot Bomb") && Config.getConfigData().lootBombEnabled){
-                    sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                if (bombType == "Loot Bomb" && Config.getConfigData()!!.lootBombEnabled) {
+                    MessageFunctions.sendMessage(
+                        ChatModClient.prefixBombbellToUse,
+                        "$bombBellPrefix A $bombType has been thrown on world $wcNumber"
+                    )
                 }
-
             }
         }
     }
 
-    public static receiveMessage getInstance() {
-        if (instance == null) {
-            instance = new receiveMessage();
+    companion object {
+        var bombBellPrefix: String = "[Snow Bell]"
+        private var instance: receiveMessage? = null
+            get() {
+                if (field == null) {
+                    field = receiveMessage()
+                }
+                return field
+            }
+
+        fun getInstance(): receiveMessage {
+            return instance ?: receiveMessage()
         }
-        return instance;
     }
 }
