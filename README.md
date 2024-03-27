@@ -1,6 +1,9 @@
 # To-do List
 - [ ] Make it viable I can create txt files in game from raw txt links ect raw.GitHub.com and such.
-- [ ] Prob some other stuff but im too lazy to remember
+- [ ] Fix the import command
+- [ ] Make the cooldown take in seconds instead of ticks for ease of use
+- [ ] Add all the used variables to config, so they save over restart
+- [ ] Add special case, so it works when the bomb comes from the world user is in
 
 ## Extra Information
 90% of this code was made by a brain-dead person at 4 am.<br>
