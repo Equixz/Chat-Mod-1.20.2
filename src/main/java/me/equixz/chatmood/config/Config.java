@@ -19,6 +19,7 @@ public class Config {
         public boolean professionSpeedBombEnabled;
         public boolean dungeonBombEnabled;
         public boolean lootBombEnabled;
+        public boolean legalToggle;
         public int initialDelay;
         public String messageToSend;
         public String prefixToUse;
@@ -27,16 +28,14 @@ public class Config {
         public String lastBombType;
         public String lastBombWorld;
 
-        public ConfigData(boolean bombBellState, boolean combatXpBombEnabled, boolean professionXpBombEnabled,
-                          boolean professionSpeedBombEnabled, boolean dungeonBombEnabled, boolean lootBombEnabled,
-                          int initialDelay, String messageToSend, String prefixToUse, String prefixBombbellToUse,
-                          String bombBellPrefix, String lastBombType, String lastBombWorld) {
+        public ConfigData(boolean bombBellState, boolean combatXpBombEnabled, boolean professionXpBombEnabled, boolean professionSpeedBombEnabled, boolean dungeonBombEnabled, boolean lootBombEnabled, boolean legalToggle, int initialDelay, String messageToSend, String prefixToUse, String prefixBombbellToUse, String bombBellPrefix, String lastBombType, String lastBombWorld) {
             this.bombBellState = bombBellState;
             this.combatXpBombEnabled = combatXpBombEnabled;
             this.professionXpBombEnabled = professionXpBombEnabled;
             this.professionSpeedBombEnabled = professionSpeedBombEnabled;
             this.dungeonBombEnabled = dungeonBombEnabled;
             this.lootBombEnabled = lootBombEnabled;
+            this.legalToggle = legalToggle;
             this.initialDelay = initialDelay;
             this.messageToSend = messageToSend;
             this.prefixToUse = prefixToUse;
@@ -66,13 +65,14 @@ public class Config {
                     true,
                     true,
                     true,
+                    true,
                     1250,
                     "Crazy",
                     "",
                     "/g ",
                     "|",
-                    "",
-                    ""
+                    "Party Bomb",
+                    "1"
             );
         }
 

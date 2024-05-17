@@ -53,12 +53,11 @@ public class Message {
                             .then(ClientCommandManager.argument("fileNameAndUrl", StringArgumentType.greedyString())
                                     .executes(context -> {
                                         String fileNameAndUrl = StringArgumentType.getString(context, "fileNameAndUrl");
-                                        // Split the fileNameAndUrl into fileName and URL
                                         String[] parts = fileNameAndUrl.split(" ", 2);
                                         if (parts.length == 2) {
                                             String fileName = parts[0];
                                             String rawLink = parts[1];
-                                            LoadData.downloadFile(fileName, rawLink);
+                                            LoadData.downloadFile("config/ChatMod/Files/" + fileName, rawLink);
                                             return 1;
                                         } else {
                                             context.getSource().sendError(Text.of("Invalid syntax. Usage: /chat import <fileName> <URL>"));
@@ -89,22 +88,17 @@ public class Message {
                         .executes(context -> {
                             boolean newValue = action.equals("enable");
                             boolean currentValue = getCurrentValue(fieldName);
-
                             if (newValue == currentValue) {
-                                // Feature is already in the desired state
                                 context.getSource().sendFeedback(Text.literal("Feature " + fieldName + " is already " + (newValue ? "enabled" : "disabled")).formatted(Formatting.RED));
                             } else {
-                                // Toggle the feature
                                 Config.toggleFeature(fieldName, newValue);
-                                context.getSource().sendFeedback(Text.literal("Feature " + fieldName + " " + (newValue ? "enabled" : "disabled")).formatted(Formatting.GREEN));
+                                context.getSource().sendFeedback(Text.literal("Feature " + fieldName + " " + (newValue ? "enabled" : "disabled")).formatted(newValue ? Formatting.GREEN : Formatting.RED));
                             }
                             return 0;
                         })
                 );
             }
         }
-
-        // Add subcommand for handling when no feature is specified
         featuresCommand.executes(context -> {
             context.getSource().sendFeedback(Text.literal("Please specify a feature to " + action).formatted(Formatting.RED));
             return 0;
@@ -115,11 +109,11 @@ public class Message {
     private static boolean getCurrentValue(String fieldName) {
         try {
             java.lang.reflect.Field field = Config.ConfigData.class.getDeclaredField(fieldName);
-            field.setAccessible(true); // Ensure private fields can be accessed
+            field.setAccessible(true);
             return field.getBoolean(Config.getConfigData());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
-            return false; // Handle errors gracefully, return default value
+            return false;
         }
     }
 
@@ -154,15 +148,11 @@ public class Message {
                     })
             );
         }
-
         return dynamicPrefixCommand;
     }
 
     private static CompletableFuture<Suggestions> fileSuggestions(SuggestionsBuilder builder) {
-        // Get the list of file names
         List<String> fileNames = ListFilesInFolder.listFilesWithoutExtension(FOLDER_PATH);
-
-        // Suggest file names
         for (String fileName : fileNames) {
             builder.suggest(fileName);
         }
@@ -172,20 +162,16 @@ public class Message {
 
     private static int executeCommand(CommandContext<FabricClientCommandSource> context) {
         String fileName = StringArgumentType.getString(context, "file");
-        // Check if the file exists in the folder
         if (fileExistsInFolder(fileName)) {
-            // If the file exists, execute the command
             MessageFunctions.changeMessage(fileName);
         } else {
-            // If the file doesn't exist, provide feedback to the player
             context.getSource().sendFeedback(Text.literal("The specified file does not exist.").formatted(Formatting.RED));
         }
 
-        return 0; // Return the appropriate result
+        return 0;
     }
 
     private static boolean fileExistsInFolder(String fileName) {
-        // Check if the file exists in the folder
         List<String> fileNames = ListFilesInFolder.listFilesWithoutExtension(FOLDER_PATH);
         return fileNames.contains(fileName);
     }

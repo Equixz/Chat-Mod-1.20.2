@@ -1,6 +1,7 @@
 package me.equixz.chatmood.functions;
 
 import com.mojang.brigadier.context.CommandContext;
+import me.equixz.chatmood.ChatMod;
 import me.equixz.chatmood.config.Config;
 import me.equixz.chatmood.structure.FileReader;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MessageFunctions {
     private static boolean isSendingMessage = false;
+    private static boolean isPressed = false;
 
     public static void sendMessage(String prefix, String message) {
         if (MinecraftClient.getInstance().player != null) {
@@ -101,10 +103,23 @@ public class MessageFunctions {
     public static void sendLastBombbell() {
         Config.ConfigData configData = Config.getConfigData();
         if (configData != null) {
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
             String prefixBombbellToUse = configData.prefixBombbellToUse;
             String bombBellPrefix = configData.bombBellPrefix;
             String bombType = configData.lastBombType;
             String wcNumber = configData.lastBombWorld;
+            if (prefixBombbellToUse.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error("prefixBombbellToUse is empty.");
+                configData.prefixBombbellToUse = "/g ";
+                return;
+            }
+            if (bombBellPrefix.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error("bombBellPrefix is empty.");
+                configData.bombBellPrefix = "|";
+                return;
+            }
             if (!bombType.isEmpty()) {
                 switch (bombType) {
                     case "Combat XP Bomb":
@@ -148,43 +163,42 @@ public class MessageFunctions {
     }
 
     public static void sendChatMessage() {
-        // Check if message sending is already in progress
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (isSendingMessage) {
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
-                player.sendMessage(Text.literal("A message is already being sent. Please wait for it to finish.").formatted(Formatting.RED), false);
+                player.sendMessage(Text.literal("A message is already being sent. Please wait.").formatted(Formatting.RED), false);
+                isPressed = true;
             }
             return;
         }
-
-        // Set the flag to indicate that message sending is in progress
         isSendingMessage = true;
-
-        // Get the file name based on the message
-        String fileName = Config.getConfigData().messageToSend + ".txt"; // Adjust the file name based on naming convention
-
-        // Check if the file exists
+        String fileName = Config.getConfigData().messageToSend + ".txt";
         if (!FileReader.doesFileExist(fileName)) {
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            player = MinecraftClient.getInstance().player;
             if (player != null) {
                 player.sendMessage(Text.literal("The file doesn't exist.").formatted(Formatting.RED), false);
             }
-            // Reset the flag since message sending is done
             isSendingMessage = false;
             return;
         }
 
-        // Read the lines from the file
         List<String> lines = FileReader.readFiles(fileName);
 
-        // Create a ScheduledExecutorService
         java.util.concurrent.ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-        // Schedule tasks with increasing delays
         long currentDelay = Config.getConfigData().initialDelay;
         for (String line : lines) {
+            ClientPlayerEntity finalPlayer = player;
             executorService.schedule(() -> {
                 try {
+                    if (isPressed) {
+                        executorService.shutdownNow();
+                        isSendingMessage = false;
+                        isPressed = false;
+                        assert finalPlayer != null;
+                        finalPlayer.sendMessage(Text.literal("Message sending interrupted.").formatted(Formatting.RED), false);
+                        return;
+                    }
                     sendMessage(Config.getConfigData().prefixToUse, line);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -193,11 +207,10 @@ public class MessageFunctions {
             currentDelay += Config.getConfigData().initialDelay;
         }
 
-        // Shutdown the executor service after all tasks are done
         executorService.schedule(() -> {
             executorService.shutdown();
-            // Reset the flag since message sending is done
             isSendingMessage = false;
+            isPressed = false;
         }, currentDelay, TimeUnit.MILLISECONDS);
     }
 }

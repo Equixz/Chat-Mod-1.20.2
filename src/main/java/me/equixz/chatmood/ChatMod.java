@@ -12,9 +12,9 @@ public class ChatMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        FileCreation.createFile("Crazy");
-        FileCreation.createFile("Uwu");
-        String fileName = "Crazy.txt";
+        FileCreation.createFile("config/ChatMod/Files/Crazy");
+        FileCreation.createFile("config/ChatMod/Files/Uwu");
+        String fileName = "config/ChatMod/Files/Crazy.txt";
         String rawLink = "https://pastebin.com/raw/D4qNzZEU";
         if (!isFileEmpty(fileName)) {
             LOGGER.info("File {} is not empty. Skipping download.", fileName);
@@ -22,7 +22,7 @@ public class ChatMod implements ModInitializer {
             LoadData.downloadFile(fileName, rawLink);
         }
 
-        fileName = "Uwu.txt";
+        fileName = "config/ChatMod/Files/Uwu.txt";
         rawLink = "https://pastebin.com/raw/zrv1X1SH";
         if (!isFileEmpty(fileName)) {
             LOGGER.info("File {} is not empty. Skipping download.", fileName);

@@ -21,7 +21,7 @@ public class FileCreation {
             }
         }
 
-        File file = new File(folder, fileName);
+        File file = new File(fileName);
 
         try {
             boolean fileCreated = file.createNewFile();
