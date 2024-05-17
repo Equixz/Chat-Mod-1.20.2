@@ -1,6 +1,9 @@
 package me.equixz.chatmood.functions;
 
 import com.mojang.brigadier.context.CommandContext;
+import me.equixz.chatmood.ChatMod;
+import me.equixz.chatmood.config.Config;
+import me.equixz.chatmood.structure.FileReader;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -9,14 +12,11 @@ import net.minecraft.util.Formatting;
 
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static me.equixz.chatmood.ChatModClient.*;
-import static me.equixz.chatmood.structure.FileReader.doesFileExist;
-import static me.equixz.chatmood.structure.FileReader.readFiles;
-
 public class MessageFunctions {
+    private static boolean isSendingMessage = false;
+    private static boolean isPressed = false;
 
     public static void sendMessage(String prefix, String message) {
         if (MinecraftClient.getInstance().player != null) {
@@ -24,77 +24,193 @@ public class MessageFunctions {
         }
     }
 
-    public static void changeMessage(CommandContext<FabricClientCommandSource> context, String newMessage) {
-        // Your existing changeMessage logic
-        messageToSend = newMessage;
-
+    public static void changeBombBellPrefix(CommandContext<FabricClientCommandSource> context, String newPrefix) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
-        if (newMessage.isEmpty()) {
-            context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
-            return;
+        if (newPrefix.length() <= 15) {
+            if (newPrefix.isEmpty()) {
+                context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
+                return;
+            }
+            assert player != null;
+            player.sendMessage(Text.literal("Bomb Bell prefix changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+            Config.ConfigData configData = Config.getConfigData();
+            if (configData != null) {
+                configData.bombBellPrefix = newPrefix;
+                configData.save();
+            }
+        } else {
+            context.getSource().sendFeedback(Text.literal("Please provide a prefix that's under 15 characters!").formatted(Formatting.RED));
         }
-        if (player != null)
-            player.sendMessage(Text.literal("File output changed to: " + newMessage).formatted(Formatting.GREEN), false);
+    }
+
+    public static void changeMessage(String newMessage) {
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            configData.messageToSend = newMessage;
+            configData.save();
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            if (newMessage.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please provide an existing file name!").formatted(Formatting.RED), false);
+            } else if (player != null) {
+                player.sendMessage(Text.literal("File output changed to: " + newMessage).formatted(Formatting.GREEN), false);
+            }
+        }
     }
 
     public static void changeCooldown(CommandContext<FabricClientCommandSource> context, String newCooldown) {
-        delayIncrement = Integer.parseInt(newCooldown);
-        initialDelay = Integer.parseInt(newCooldown);
-
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
-        if (newCooldown.isEmpty()) {
-            context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
+        int cooldown = Integer.parseInt(newCooldown);
+        if (cooldown < 1250) {
+            context.getSource().sendError(Text.of("Cooldown value must be 1250 or higher."));
             return;
         }
-        if (player != null)
-            player.sendMessage(Text.literal("Message cooldown changed to: " + newCooldown).formatted(Formatting.GREEN), false);
-
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            configData.initialDelay = cooldown;
+            configData.save();
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            if (newCooldown.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED), false);
+            } else if (player != null) {
+                player.sendMessage(Text.literal("Message cooldown changed to: " + newCooldown).formatted(Formatting.GREEN), false);
+            }
+        }
     }
 
     public static void changePrefix(String newPrefix) {
-        prefixToUse = newPrefix;
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            configData.prefixToUse = newPrefix;
+            configData.save();
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            if (player != null) {
+                player.sendMessage(Text.literal("Message chat changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+            }
+        }
+    }
 
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+    public static void changePrefixBombbell(String newPrefix) {
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            configData.prefixBombbellToUse = newPrefix;
+            configData.save();
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            if (player != null) {
+                player.sendMessage(Text.literal("Bomb Bell chat changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+            }
+        }
+    }
 
-        if (player != null)
-            player.sendMessage(Text.literal("Message prefix changed to: " + newPrefix).formatted(Formatting.GREEN), false);
+    public static void sendLastBombbell() {
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            String prefixBombbellToUse = configData.prefixBombbellToUse;
+            String bombBellPrefix = configData.bombBellPrefix;
+            String bombType = configData.lastBombType;
+            String wcNumber = configData.lastBombWorld;
+            if (prefixBombbellToUse.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error("prefixBombbellToUse is empty.");
+                configData.prefixBombbellToUse = "/g ";
+                return;
+            }
+            if (bombBellPrefix.isEmpty() && player != null) {
+                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error("bombBellPrefix is empty.");
+                configData.bombBellPrefix = "|";
+                return;
+            }
+            if (!bombType.isEmpty()) {
+                switch (bombType) {
+                    case "Combat XP Bomb":
+                        if (configData.combatXpBombEnabled) {
+                            sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                        }
+                        break;
+                    case "Profession XP Bomb":
+                        if (configData.professionXpBombEnabled) {
+                            sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                        }
+                        break;
+                    case "Profession Speed Bomb":
+                        if (configData.professionSpeedBombEnabled) {
+                            sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                        }
+                        break;
+                    case "Dungeon Bomb":
+                        if (configData.dungeonBombEnabled) {
+                            sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                        }
+                        break;
+                    case "Loot Bomb":
+                        if (configData.lootBombEnabled) {
+                            sendMessage(prefixBombbellToUse, bombBellPrefix + " A " + bombType + " has been thrown on world " + wcNumber);
+                        }
+                        break;
+                }
+            }
+        }
+    }
 
+    public static void switchToLatestBombbell() {
+        Config.ConfigData configData = Config.getConfigData();
+        if (configData != null) {
+            String wcNumber = configData.lastBombWorld;
+            if (!wcNumber.isEmpty()) {
+                sendMessage("/switch ", wcNumber);
+            }
+        }
     }
 
     public static void sendChatMessage() {
-        // Get the file name based on the message
-        String fileName = messageToSend + ".txt"; // Adjust the file name based on your naming convention
-
-        // Check if the file exists
-        if (!doesFileExist(fileName)) {
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if (isSendingMessage) {
             if (player != null) {
-                player.sendMessage(Text.literal("The file doesn't exist.").formatted(Formatting.RED), false);
+                player.sendMessage(Text.literal("A message is already being sent. Please wait.").formatted(Formatting.RED), false);
+                isPressed = true;
             }
             return;
         }
-        // Read the lines from the file
-        List<String> lines = readFiles(fileName);
+        isSendingMessage = true;
+        String fileName = Config.getConfigData().messageToSend + ".txt";
+        if (!FileReader.doesFileExist(fileName)) {
+            player = MinecraftClient.getInstance().player;
+            if (player != null) {
+                player.sendMessage(Text.literal("The file doesn't exist.").formatted(Formatting.RED), false);
+            }
+            isSendingMessage = false;
+            return;
+        }
 
-        // Create a ScheduledExecutorService
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        List<String> lines = FileReader.readFiles(fileName);
 
-        // Schedule tasks with increasing delays
-        long currentDelay = initialDelay;
+        java.util.concurrent.ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+        long currentDelay = Config.getConfigData().initialDelay;
         for (String line : lines) {
-            final String message = line;
+            ClientPlayerEntity finalPlayer = player;
             executorService.schedule(() -> {
                 try {
-                    sendMessage(prefixToUse, message);
+                    if (isPressed) {
+                        executorService.shutdownNow();
+                        isSendingMessage = false;
+                        isPressed = false;
+                        assert finalPlayer != null;
+                        finalPlayer.sendMessage(Text.literal("Message sending interrupted.").formatted(Formatting.RED), false);
+                        return;
+                    }
+                    sendMessage(Config.getConfigData().prefixToUse, line);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }}, currentDelay, TimeUnit.MILLISECONDS);
-            currentDelay += delayIncrement;
+                }
+            }, currentDelay, TimeUnit.MILLISECONDS);
+            currentDelay += Config.getConfigData().initialDelay;
         }
-        // Shutdown the executor service after all tasks are done
-        executorService.shutdown();
-    }
 
+        executorService.schedule(() -> {
+            executorService.shutdown();
+            isSendingMessage = false;
+            isPressed = false;
+        }, currentDelay, TimeUnit.MILLISECONDS);
+    }
 }

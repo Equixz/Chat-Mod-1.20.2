@@ -1,45 +1,37 @@
 package me.equixz.chatmood;
 
-import com.mojang.brigadier.CommandDispatcher;
+import me.equixz.chatmood.commands.Message;
+import me.equixz.chatmood.functions.MessageFunctions;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-import static me.equixz.chatmood.commands.Message.registerCommands;
-import static me.equixz.chatmood.commands.Message.registerCustomCommands;
-import static me.equixz.chatmood.functions.MessageFunctions.sendChatMessage;
-import static net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK;
-
 public class ChatModClient implements ClientModInitializer {
-
-    private static final KeyBinding sendMessageKey = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("Send Group Messages", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "ChatMod")
-    );
-
-    public static String messageToSend = "Crazy";
-    public static String prefixToUse = "";
-    public static int initialDelay = 1000;
-    public static int delayIncrement = 1000;
-    private final CommandDispatcher<FabricClientCommandSource> dispatcher;
-
-    public ChatModClient(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        this.dispatcher = dispatcher;
-    }
+    private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
+    private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
+    private static final KeyBinding switchWorldsLastBombbell = registerKeyBinding("Switch Worlds to latest Bombbell");
 
     @Override
     public void onInitializeClient() {
-        registerCommands(dispatcher);
-        registerCustomCommands();
-        END_CLIENT_TICK.register(this::onClientTick);
+        Message.registerBaseCommand();
+        ClientTickEvents.END_CLIENT_TICK.register(client -> handleClientTick());
     }
 
-    private void onClientTick(MinecraftClient client) {
+    private static KeyBinding registerKeyBinding(String description) {
+        return KeyBindingHelper.registerKeyBinding(new KeyBinding(description, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "ChatMod"));
+    }
+
+    private static void handleClientTick() {
         if (sendMessageKey.wasPressed()) {
-            sendChatMessage();
+            MessageFunctions.sendChatMessage();
+        }
+        if (sendLastBombbell.wasPressed()) {
+            MessageFunctions.sendLastBombbell();
+        }
+        if (switchWorldsLastBombbell.wasPressed()) {
+            MessageFunctions.switchToLatestBombbell();
         }
     }
-
 }
