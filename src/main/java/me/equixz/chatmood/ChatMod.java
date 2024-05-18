@@ -12,11 +12,11 @@ public class ChatMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        try {
-            new ModUpdater().checkForUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            new ModUpdater().checkForUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         FileCreation.createFile("config/ChatMod/Files/Crazy");
         FileCreation.createFile("config/ChatMod/Files/Uwu");
         String fileName = "config/ChatMod/Files/Crazy.txt";
