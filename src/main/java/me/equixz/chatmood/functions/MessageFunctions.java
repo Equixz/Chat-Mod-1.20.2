@@ -156,7 +156,7 @@ public class MessageFunctions {
         Config.ConfigData configData = Config.getConfigData();
         if (configData != null) {
             String wcNumber = configData.lastBombWorld;
-            if (!wcNumber.isEmpty()) {
+            if (wcNumber != null) {
                 sendMessage("/switch ", wcNumber);
             }
         }
