@@ -2,8 +2,8 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   build:
@@ -39,30 +39,42 @@ jobs:
         id: extract_version
         run: |
           MOD_VERSION=$(grep '^mod_version' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
-          ARTIFACT_NAME="chat-mod-${MOD_VERSION}.jar"
+          JAR_ARTIFACT_NAME="chat-mod-${MOD_VERSION}.jar"
+          ZIP_ARTIFACT_NAME="chat-mod-${MOD_VERSION}.zip"
           echo "MOD_VERSION=${MOD_VERSION}" >> $GITHUB_ENV
-          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> $GITHUB_ENV
+          echo "JAR_ARTIFACT_NAME=${JAR_ARTIFACT_NAME}" >> $GITHUB_ENV
+          echo "ZIP_ARTIFACT_NAME=${ZIP_ARTIFACT_NAME}" >> $GITHUB_ENV
 
-      - name: Create Release
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: v${{ env.MOD_VERSION }}
+          release_name: Release v${{ env.MOD_VERSION }}
           body: |
             Changes in this release:
             ${{ github.event.head_commit.message }}
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
+      - name: Upload JAR Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/${{ env.ARTIFACT_NAME }}
-          asset_name: ${{ env.ARTIFACT_NAME }}
+          asset_path: ./build/libs/${{ env.JAR_ARTIFACT_NAME }}
+          asset_name: ${{ env.JAR_ARTIFACT_NAME }}
           asset_content_type: application/java-archive
+
+      - name: Upload ZIP Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/distributions/${{ env.ZIP_ARTIFACT_NAME }}
+          asset_name: ${{ env.ZIP_ARTIFACT_NAME }}
+          asset_content_type: application/zip
