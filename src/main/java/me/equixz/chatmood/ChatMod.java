@@ -42,7 +42,6 @@ public class ChatMod implements ModInitializer {
         if (file.exists()) {
             return file.length() == 0L;
         } else {
-            // Handle case where file doesn't exist
             LOGGER.warn("File {} does not exist.", fileName);
             return false;
         }

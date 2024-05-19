@@ -95,7 +95,6 @@ public class Config {
 
     public static ConfigData getConfigData() {
         if (configData != null) return configData;
-
         try {
             if (!Files.exists(configFile)) {
                 Files.createDirectories(configDir);

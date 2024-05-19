@@ -35,7 +35,7 @@ public class Message {
                             .then(ClientCommandManager.argument("time", IntegerArgumentType.integer())
                                     .executes(context -> {
                                         int customTime = IntegerArgumentType.getInteger(context, "time");
-                                        MessageFunctions.changeCooldown(context, Integer.toString(customTime));
+                                        MessageFunctions.changeCooldown(Integer.toString(customTime));
                                         return 0;
                                     })
                             )
@@ -44,7 +44,7 @@ public class Message {
                             .then(ClientCommandManager.argument("prefix", StringArgumentType.greedyString())
                                     .executes(context -> {
                                         String customPrefix = StringArgumentType.getString(context, "prefix");
-                                        MessageFunctions.changeBombBellPrefix(context, customPrefix);
+                                        MessageFunctions.changeBombBellPrefix(customPrefix);
                                         return 0;
                                     })
                             )

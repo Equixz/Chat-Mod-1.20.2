@@ -44,7 +44,7 @@ public class ModUpdater {
     }
 
     private void downloadNewVersion(String latestVersion) throws Exception {
-        String downloadUrl = "https://github.com/yourusername/yourmod/releases/download/" + latestVersion + "/chat-mod-" + latestVersion + ".jar";
+        String downloadUrl = "https://github.com/Equixz/Chat-Mod-1.20.2/releases/download/" + latestVersion + "/chat-mod-" + latestVersion + ".jar";
         URL url = new URL(downloadUrl);
         InputStream in = url.openStream();
         OutputStream out = new FileOutputStream("mods/chat-mod-" + latestVersion + ".jar");

@@ -1,10 +1,8 @@
 package me.equixz.chatmood.functions;
 
-import com.mojang.brigadier.context.CommandContext;
 import me.equixz.chatmood.ChatMod;
 import me.equixz.chatmood.config.Config;
 import me.equixz.chatmood.structure.FileReader;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
@@ -24,14 +22,14 @@ public class MessageFunctions {
         }
     }
 
-    public static void changeBombBellPrefix(CommandContext<FabricClientCommandSource> context, String newPrefix) {
+    public static void changeBombBellPrefix(String newPrefix) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        assert player != null;
         if (newPrefix.length() <= 15) {
             if (newPrefix.isEmpty()) {
-                context.getSource().sendFeedback(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED));
+                player.sendMessage(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED), false);
                 return;
             }
-            assert player != null;
             player.sendMessage(Text.literal("Bomb Bell prefix changed to: " + newPrefix).formatted(Formatting.GREEN), false);
             Config.ConfigData configData = Config.getConfigData();
             if (configData != null) {
@@ -39,7 +37,7 @@ public class MessageFunctions {
                 configData.save();
             }
         } else {
-            context.getSource().sendFeedback(Text.literal("Please provide a prefix that's under 15 characters!").formatted(Formatting.RED));
+            player.sendMessage(Text.literal("Please provide a prefix that's under 15 characters!").formatted(Formatting.RED), false);
         }
     }
 
@@ -57,17 +55,17 @@ public class MessageFunctions {
         }
     }
 
-    public static void changeCooldown(CommandContext<FabricClientCommandSource> context, String newCooldown) {
+    public static void changeCooldown(String newCooldown) {
         int cooldown = Integer.parseInt(newCooldown);
-        if (cooldown < 1250) {
-            context.getSource().sendError(Text.of("Cooldown value must be 1250 or higher."));
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if (cooldown < 1250 && player != null) {
+            player.sendMessage(Text.literal("Cooldown value must be 1250 or higher.").formatted(Formatting.RED), false);
             return;
         }
         Config.ConfigData configData = Config.getConfigData();
         if (configData != null) {
             configData.initialDelay = cooldown;
             configData.save();
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (newCooldown.isEmpty() && player != null) {
                 player.sendMessage(Text.literal("Please provide a non-empty message!").formatted(Formatting.RED), false);
             } else if (player != null) {
@@ -109,13 +107,15 @@ public class MessageFunctions {
             String bombType = configData.lastBombType;
             String wcNumber = configData.lastBombWorld;
             if (prefixBombbellToUse.isEmpty() && player != null) {
-                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                player.sendMessage(Text.literal("Please send your log file to a developer. Error #2452").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error(prefixBombbellToUse);
                 ChatMod.LOGGER.error("prefixBombbellToUse is empty.");
                 configData.prefixBombbellToUse = "/g ";
                 return;
             }
             if (bombBellPrefix.isEmpty() && player != null) {
-                player.sendMessage(Text.literal("Please send your log file to a developer.").formatted(Formatting.RED), false);
+                player.sendMessage(Text.literal("Please send your log file to a developer. Error #2453").formatted(Formatting.RED), false);
+                ChatMod.LOGGER.error(bombBellPrefix);
                 ChatMod.LOGGER.error("bombBellPrefix is empty.");
                 configData.bombBellPrefix = "|";
                 return;

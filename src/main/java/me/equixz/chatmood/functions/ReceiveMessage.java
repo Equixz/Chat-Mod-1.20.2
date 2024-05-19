@@ -20,7 +20,6 @@ public class ReceiveMessage {
                 }
                 String[] parts = unformattedMessage.split("on WC");
                 if (parts.length == 2) {
-                    // check the bomb type
                     if ((parts[0].contains("Combat XP") && configData.combatXpBombEnabled)) {
                         Save(parts);
                     } else if ((parts[0].contains("Profession XP") && configData.professionXpBombEnabled)) {
