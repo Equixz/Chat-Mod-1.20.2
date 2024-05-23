@@ -1,0 +1,1629 @@
+{
+    "Divzer": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 161,
+                "max": 697
+            },
+            "rawSpellDamage": {
+                "min": 76,
+                "max": 329
+            },
+            "lifeSteal": {
+                "min": 292,
+                "max": 1265
+            },
+            "manaSteal": {
+                "min": 9,
+                "max": 39
+            },
+            "rawAttackSpeed": 1,
+            "waterDamage": {
+                "min": -715,
+                "max": -385
+            },
+            "fireDamage": {
+                "min": -715,
+                "max": -385
+            }
+        }
+    },
+    "Fatal": {
+        "identifications": {
+            "spellDamage": {
+                "min": 8,
+                "max": 33
+            },
+            "manaSteal": {
+                "min": 2,
+                "max": 8
+            },
+            "1stSpellCost": {
+                "min": 36,
+                "max": 20
+            },
+            "2ndSpellCost": {
+                "min": -15,
+                "max": -64
+            },
+            "walkSpeed": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Freedom": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 33,
+                "max": 144
+            },
+            "rawSpellDamage": {
+                "min": 33,
+                "max": 144
+            },
+            "rawHealth": {
+                "min": 300,
+                "max": 1300
+            },
+            "manaRegen": {
+                "min": 3,
+                "max": 13
+            },
+            "walkSpeed": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Olympic": {
+        "identifications": {
+            "raw1stSpellCost": {
+                "min": -3,
+                "max": -13
+            },
+            "raw2ndSpellCost": {
+                "min": -3,
+                "max": -13
+            },
+            "walkSpeed": {
+                "min": 11,
+                "max": 46
+            },
+            "jumpHeight": {
+                "min": 2,
+                "max": 8
+            },
+            "airDamage": {
+                "min": 6,
+                "max": 26
+            },
+            "airDefence": {
+                "min": 9,
+                "max": 39
+            }
+        }
+    },
+    "Archangel": {
+        "identifications": {
+            "healthRegen": {
+                "min": 9,
+                "max": 39
+            },
+            "healthRegenRaw": {
+                "min": 36,
+                "max": 156
+            },
+            "rawHealth": {
+                "min": 570,
+                "max": 2470
+            },
+            "walkSpeed": {
+                "min": 12,
+                "max": 53
+            }
+        }
+    },
+    "Boreal": {
+        "identifications": {
+            "healthRegen": {
+                "min": 30,
+                "max": 130
+            },
+            "healthRegenRaw": {
+                "min": 81,
+                "max": 350
+            },
+            "manaRegen": {
+                "min": 3,
+                "max": 13
+            },
+            "reflection": {
+                "min": 8,
+                "max": 33
+            },
+            "walkSpeed": {
+                "min": 8,
+                "max": 33
+            },
+            "earthDamage": {
+                "min": -97,
+                "max": -52
+            },
+            "thunderDamage": {
+                "min": -97,
+                "max": -52
+            },
+            "fireDefence": {
+                "min": 15,
+                "max": 65
+            },
+            "airDefence": {
+                "min": 15,
+                "max": 65
+            }
+        }
+    },
+    "Warchief": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "rawMainAttackDamage": {
+                "min": 95,
+                "max": 410
+            },
+            "walkSpeed": {
+                "min": -19,
+                "max": -10
+            },
+            "exploding": {
+                "min": 11,
+                "max": 46
+            },
+            "earthDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "thunderDamage": {
+                "min": 15,
+                "max": 65
+            }
+        }
+    },
+    "Sunstar": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 173,
+                "max": 750
+            },
+            "lifeSteal": {
+                "min": 188,
+                "max": 813
+            },
+            "healingEfficiency": {
+                "min": -19,
+                "max": -10
+            },
+            "thorns": {
+                "min": 9,
+                "max": 39
+            },
+            "reflection": {
+                "min": 27,
+                "max": 117
+            },
+            "thunderDamage": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Absolution": {
+        "identifications": {
+            "rawHealth": {
+                "min": 900,
+                "max": 3900
+            },
+            "manaRegen": {
+                "min": 5,
+                "max": 21
+            },
+            "healingEfficiency": {
+                "min": 30,
+                "max": 130
+            },
+            "raw1stSpellCost": {
+                "min": -6,
+                "max": -26
+            },
+            "soulPointRegen": {
+                "min": 7,
+                "max": 30
+            },
+            "fireDamage": {
+                "min": 6,
+                "max": 26
+            },
+            "earthDefence": {
+                "min": 14,
+                "max": 59
+            },
+            "thunderDefence": {
+                "min": 14,
+                "max": 59
+            }
+        }
+    },
+    "Discoverer": {
+        "identifications": {
+            "xpBonus": {
+                "min": 5,
+                "max": 20
+            },
+            "lootBonus": {
+                "min": 46,
+                "max": 200
+            }
+        }
+    },
+    "Revenant": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": -91,
+                "max": -49
+            },
+            "rawMainAttackDamage": {
+                "min": 156,
+                "max": 676
+            },
+            "rawHealth": {
+                "min": -3250,
+                "max": -1750
+            },
+            "manaSteal": {
+                "min": 3,
+                "max": 13
+            },
+            "4thSpellCost": {
+                "min": -8,
+                "max": -36
+            },
+            "reflection": {
+                "min": 36,
+                "max": 156
+            },
+            "walkSpeed": {
+                "min": 12,
+                "max": 52
+            },
+            "earthDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "airDamage": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Nirvana": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": -104,
+                "max": -56
+            },
+            "spellDamage": {
+                "min": 8,
+                "max": 33
+            },
+            "rawHealth": {
+                "min": -2600,
+                "max": -1400
+            },
+            "manaRegen": {
+                "min": 3,
+                "max": 13
+            },
+            "manaSteal": {
+                "min": -26,
+                "max": -14
+            },
+            "reflection": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Gaia": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 5,
+                "max": 20
+            },
+            "rawMainAttackDamage": {
+                "min": 173,
+                "max": 748
+            },
+            "rawSpellDamage": {
+                "min": -214,
+                "max": -115
+            },
+            "poison": {
+                "min": 3600,
+                "max": 15600
+            },
+            "raw4thSpellCost": {
+                "min": -3,
+                "max": -12
+            },
+            "thorns": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Stardew": {
+        "identifications": {
+            "rawSpellDamage": {
+                "min": 94,
+                "max": 407
+            },
+            "manaRegen": {
+                "min": -12,
+                "max": -6
+            },
+            "manaSteal": {
+                "min": 5,
+                "max": 20
+            },
+            "reflection": {
+                "min": 8,
+                "max": 33
+            },
+            "thunderDamage": {
+                "min": 11,
+                "max": 46
+            },
+            "waterDamage": {
+                "min": 11,
+                "max": 46
+            }
+        }
+    },
+    "Guardian": {
+        "identifications": {
+            "healthRegenRaw": {
+                "min": 176,
+                "max": 761
+            },
+            "rawHealth": {
+                "min": 1800,
+                "max": 7800
+            },
+            "manaRegen": {
+                "min": 3,
+                "max": 12
+            },
+            "thorns": {
+                "min": 8,
+                "max": 33
+            },
+            "earthDefence": {
+                "min": 6,
+                "max": 26
+            },
+            "waterDefence": {
+                "min": 6,
+                "max": 26
+            },
+            "fireDefence": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Convergence": {
+        "identifications": {
+            "healthRegen": {
+                "min": 13,
+                "max": 56
+            },
+            "3rdSpellCost": {
+                "min": -13,
+                "max": -58
+            },
+            "sprintRegen": {
+                "min": 13,
+                "max": 56
+            },
+            "earthDamage": {
+                "min": 17,
+                "max": 72
+            },
+            "thunderDamage": {
+                "min": 17,
+                "max": 72
+            },
+            "airDefence": {
+                "min": 11,
+                "max": 46
+            }
+        }
+    },
+    "Inferno": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 8,
+                "max": 33
+            },
+            "rawMainAttackDamage": {
+                "min": 168,
+                "max": 728
+            },
+            "healthRegen": {
+                "min": -58,
+                "max": -31
+            },
+            "rawHealth": {
+                "min": 450,
+                "max": 1950
+            },
+            "manaRegen": {
+                "min": -8,
+                "max": -4
+            },
+            "raw1stSpellCost": {
+                "min": -1,
+                "max": -5
+            },
+            "walkSpeed": {
+                "min": 8,
+                "max": 33
+            },
+            "fireDamage": {
+                "min": 11,
+                "max": 46
+            },
+            "waterDefence": {
+                "min": -52,
+                "max": -28
+            }
+        }
+    },
+    "Resurgence": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": -58,
+                "max": -31
+            },
+            "spellDamage": {
+                "min": -45,
+                "max": -24
+            },
+            "healthRegenRaw": {
+                "min": 117,
+                "max": 507
+            },
+            "manaRegen": {
+                "min": 9,
+                "max": 39
+            },
+            "walkSpeed": {
+                "min": -18,
+                "max": -10
+            },
+            "soulPointRegen": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Galleon": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 14,
+                "max": 59
+            },
+            "poison": {
+                "min": 3750,
+                "max": 16250
+            },
+            "manaSteal": {
+                "min": 6,
+                "max": 26
+            },
+            "rawAttackSpeed": {
+                "min": -1,
+                "max": -1
+            },
+            "lootBonus": {
+                "min": 6,
+                "max": 26
+            },
+            "stealing": {
+                "min": 5,
+                "max": 20
+            },
+            "earthDamage": {
+                "min": 11,
+                "max": 47
+            },
+            "waterDamage": {
+                "min": 11,
+                "max": 47
+            }
+        }
+    },
+    "Toxoplasmosis": {
+        "identifications": {
+            "poison": {
+                "min": 9600,
+                "max": 41600
+            },
+            "lifeSteal": {
+                "min": 150,
+                "max": 650
+            },
+            "manaSteal": {
+                "min": 5,
+                "max": 23
+            },
+            "walkSpeed": {
+                "min": 6,
+                "max": 26
+            },
+            "lootBonus": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Hero": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "healthRegen": {
+                "min": 12,
+                "max": 52
+            },
+            "walkSpeed": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Dawnbreak": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 810,
+                "max": 3510
+            },
+            "lifeSteal": {
+                "min": 105,
+                "max": 455
+            },
+            "manaSteal": {
+                "min": 4,
+                "max": 16
+            },
+            "rawAttackSpeed": {
+                "min": -26,
+                "max": -14
+            },
+            "exploding": {
+                "min": 7,
+                "max": 30
+            },
+            "thunderDamage": {
+                "min": 8,
+                "max": 35
+            },
+            "fireDamage": {
+                "min": 8,
+                "max": 35
+            }
+        }
+    },
+    "Idol": {
+        "identifications": {
+            "rawSpellDamage": {
+                "min": 79,
+                "max": 343
+            },
+            "manaRegen": {
+                "min": 4,
+                "max": 16
+            },
+            "raw2ndSpellCost": {
+                "min": -9,
+                "max": -39
+            },
+            "reflection": {
+                "min": 9,
+                "max": 39
+            },
+            "soulPointRegen": {
+                "min": 8,
+                "max": 33
+            },
+            "waterDefence": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Hadal": {
+        "identifications": {
+            "spellDamage": {
+                "min": 23,
+                "max": 98
+            },
+            "manaRegen": {
+                "min": 9,
+                "max": 39
+            },
+            "3rdSpellCost": {
+                "min": 65,
+                "max": 35
+            },
+            "4thSpellCost": {
+                "min": 65,
+                "max": 35
+            }
+        }
+    },
+    "Oblivion": {
+        "identifications": {
+            "rawSpellDamage": {
+                "min": 80,
+                "max": 345
+            },
+            "manaRegen": {
+                "min": -39,
+                "max": -21
+            },
+            "manaSteal": {
+                "min": 5,
+                "max": 20
+            },
+            "raw2ndSpellCost": {
+                "min": -6,
+                "max": -26
+            },
+            "exploding": {
+                "min": 12,
+                "max": 52
+            },
+            "soulPointRegen": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Monster": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "rawHealth": {
+                "min": 900,
+                "max": 3900
+            },
+            "lifeSteal": {
+                "min": 150,
+                "max": 650
+            },
+            "manaSteal": {
+                "min": 3,
+                "max": 13
+            },
+            "raw1stSpellCost": {
+                "min": 5,
+                "max": 3
+            },
+            "fireDamage": {
+                "min": 8,
+                "max": 33
+            }
+        }
+    },
+    "Lament": {
+        "identifications": {
+            "lifeSteal": {
+                "min": -650,
+                "max": -350
+            },
+            "manaSteal": {
+                "min": 12,
+                "max": 52
+            },
+            "healingEfficiency": {
+                "min": 9,
+                "max": 40
+            },
+            "1stSpellCost": {
+                "min": -10,
+                "max": -45
+            },
+            "waterDamage": {
+                "min": 24,
+                "max": 104
+            }
+        }
+    },
+    "Singularity": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 5,
+                "max": 20
+            },
+            "rawMainAttackDamage": {
+                "min": 133,
+                "max": 577
+            },
+            "spellDamage": {
+                "min": 3,
+                "max": 13
+            },
+            "rawSpellDamage": {
+                "min": 67,
+                "max": 289
+            },
+            "healthRegenRaw": {
+                "min": 75,
+                "max": 325
+            },
+            "walkSpeed": {
+                "min": -52,
+                "max": -28
+            }
+        }
+    },
+    "Immolation": {
+        "identifications": {
+            "healthRegen": {
+                "min": -234,
+                "max": -126
+            },
+            "healingEfficiency": {
+                "min": -650,
+                "max": -350
+            },
+            "3rdSpellCost": {
+                "min": -6,
+                "max": -26
+            },
+            "fireDamage": {
+                "min": 14,
+                "max": 59
+            },
+            "airDamage": {
+                "min": 14,
+                "max": 59
+            }
+        }
+    },
+    "Stratiformis": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 4,
+                "max": 16
+            },
+            "spellDamage": {
+                "min": 4,
+                "max": 16
+            },
+            "rawHealth": {
+                "min": -2600,
+                "max": -1400
+            },
+            "reflection": {
+                "min": 4,
+                "max": 16
+            },
+            "walkSpeed": {
+                "min": 23,
+                "max": 99
+            }
+        }
+    },
+    "Ignis": {
+        "identifications": {
+            "healthRegen": {
+                "min": 12,
+                "max": 52
+            },
+            "healthRegenRaw": {
+                "min": 104,
+                "max": 449
+            },
+            "rawHealth": {
+                "min": 1200,
+                "max": 5200
+            },
+            "4thSpellCost": {
+                "min": -10,
+                "max": -45
+            },
+            "fireDamage": {
+                "min": 3,
+                "max": 13
+            },
+            "fireDefence": {
+                "min": 30,
+                "max": 130
+            },
+            "airDefence": {
+                "min": 15,
+                "max": 65
+            }
+        }
+    },
+    "Cataclysm": {
+        "identifications": {
+            "rawHealth": {
+                "min": -7800,
+                "max": -4200
+            },
+            "raw1stSpellCost": {
+                "min": -1,
+                "max": -5
+            },
+            "thorns": {
+                "min": 6,
+                "max": 27
+            },
+            "stealing": {
+                "min": 2,
+                "max": 7
+            },
+            "thunderDamage": {
+                "min": 5,
+                "max": 22
+            }
+        }
+    },
+    "Crusade Sabatons": {
+        "identifications": {
+            "healthRegen": {
+                "min": 9,
+                "max": 40
+            },
+            "rawHealth": {
+                "min": 750,
+                "max": 3250
+            },
+            "thorns": {
+                "min": 11,
+                "max": 46
+            },
+            "walkSpeed": {
+                "min": -19,
+                "max": -10
+            },
+            "earthDefence": {
+                "min": 9,
+                "max": 39
+            },
+            "fireDefence": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Fantasia": {
+        "identifications": {
+            "spellDamage": {
+                "min": 9,
+                "max": 39
+            },
+            "manaRegen": {
+                "min": -26,
+                "max": -14
+            },
+            "manaSteal": {
+                "min": -26,
+                "max": -14
+            },
+            "1stSpellCost": {
+                "min": -8,
+                "max": -35
+            },
+            "2ndSpellCost": {
+                "min": -8,
+                "max": -35
+            },
+            "3rdSpellCost": {
+                "min": -8,
+                "max": -35
+            },
+            "4thSpellCost": {
+                "min": -8,
+                "max": -35
+            }
+        }
+    },
+    "Slayer": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 86,
+                "max": 371
+            },
+            "healthRegenRaw": {
+                "min": -351,
+                "max": -189
+            },
+            "3rdSpellCost": {
+                "min": -9,
+                "max": -39
+            },
+            "rawAttackSpeed": 1,
+            "walkSpeed": {
+                "min": 8,
+                "max": 35
+            },
+            "stealing": {
+                "min": 3,
+                "max": 13
+            }
+        }
+    },
+    "Weathered": {
+        "identifications": {
+            "manaSteal": {
+                "min": 5,
+                "max": 21
+            },
+            "reflection": {
+                "min": 8,
+                "max": 33
+            },
+            "rawAttackSpeed": 1,
+            "walkSpeed": {
+                "min": 8,
+                "max": 33
+            },
+            "exploding": {
+                "min": -65,
+                "max": -35
+            },
+            "airDamage": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Collapse": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 15,
+                "max": 65
+            },
+            "manaSteal": {
+                "min": 5,
+                "max": 23
+            },
+            "exploding": {
+                "min": 75,
+                "max": 325
+            },
+            "earthDefence": {
+                "min": -84,
+                "max": -45
+            },
+            "thunderDefence": {
+                "min": -84,
+                "max": -45
+            },
+            "waterDefence": {
+                "min": -84,
+                "max": -45
+            },
+            "fireDefence": {
+                "min": -84,
+                "max": -45
+            },
+            "airDefence": {
+                "min": -84,
+                "max": -45
+            }
+        }
+    },
+    "Thrundacrack": {
+        "identifications": {
+            "healthRegen": {
+                "min": -78,
+                "max": -42
+            },
+            "raw3rdSpellCost": {
+                "min": -1,
+                "max": -5
+            },
+            "walkSpeed": {
+                "min": 3,
+                "max": 12
+            },
+            "thunderDamage": {
+                "min": 8,
+                "max": 33
+            },
+            "waterDamage": {
+                "min": 18,
+                "max": 78
+            }
+        }
+    },
+    "Aftershock": {
+        "identifications": {
+            "spellDamage": {
+                "min": -26,
+                "max": -14
+            },
+            "rawHealth": {
+                "min": 555,
+                "max": 2405
+            },
+            "4thSpellCost": {
+                "min": -8,
+                "max": -36
+            },
+            "earthDamage": {
+                "min": 6,
+                "max": 26
+            },
+            "earthDefence": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Grandmother": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 6,
+                "max": 27
+            },
+            "spellDamage": {
+                "min": 6,
+                "max": 27
+            },
+            "healthRegen": {
+                "min": -45,
+                "max": -24
+            },
+            "healthRegenRaw": {
+                "min": -786,
+                "max": -423
+            },
+            "walkSpeed": {
+                "min": -8,
+                "max": -4
+            },
+            "xpBonus": {
+                "min": 5,
+                "max": 20
+            },
+            "lootBonus": {
+                "min": 8,
+                "max": 33
+            }
+        }
+    },
+    "Epoch": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 231,
+                "max": 1000
+            },
+            "spellDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "lifeSteal": {
+                "min": 248,
+                "max": 1073
+            },
+            "manaSteal": {
+                "min": -8,
+                "max": -4
+            },
+            "raw1stSpellCost": {
+                "min": -1,
+                "max": -5
+            },
+            "raw4thSpellCost": {
+                "min": -1,
+                "max": -5
+            },
+            "walkSpeed": {
+                "min": -26,
+                "max": -14
+            },
+            "sprint": {
+                "min": 21,
+                "max": 91
+            }
+        }
+    },
+    "Spring": {
+        "identifications": {
+            "manaRegen": {
+                "min": 9,
+                "max": 39
+            },
+            "thunderDamage": {
+                "min": -65,
+                "max": -35
+            },
+            "waterDamage": {
+                "min": 6,
+                "max": 26
+            }
+        }
+    },
+    "Az": {
+        "identifications": {
+            "1stSpellCost": {
+                "min": -7,
+                "max": -30
+            },
+            "xpBonus": {
+                "min": 5,
+                "max": 20
+            },
+            "waterDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "fireDamage": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Nullification": {
+        "identifications": {
+            "poison": {
+                "min": -13000,
+                "max": -7000
+            },
+            "lifeSteal": {
+                "min": 149,
+                "max": 644
+            },
+            "manaSteal": {
+                "min": 5,
+                "max": 21
+            },
+            "reflection": {
+                "min": 24,
+                "max": 104
+            },
+            "earthDefence": {
+                "min": 43,
+                "max": 186
+            },
+            "thunderDefence": {
+                "min": 43,
+                "max": 186
+            },
+            "waterDefence": {
+                "min": 43,
+                "max": 186
+            },
+            "fireDefence": {
+                "min": 43,
+                "max": 186
+            },
+            "airDefence": {
+                "min": 43,
+                "max": 186
+            }
+        }
+    },
+    "Moontower": {
+        "identifications": {
+            "walkSpeed": {
+                "min": 8,
+                "max": 33
+            },
+            "waterDefence": {
+                "min": 12,
+                "max": 52
+            },
+            "airDefence": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Warp": {
+        "identifications": {
+            "healthRegen": {
+                "min": -260,
+                "max": -140
+            },
+            "healthRegenRaw": {
+                "min": -780,
+                "max": -420
+            },
+            "manaRegen": {
+                "min": -58,
+                "max": -31
+            },
+            "raw1stSpellCost": {
+                "min": 5,
+                "max": 3
+            },
+            "raw2ndSpellCost": {
+                "min": -90,
+                "max": -389
+            },
+            "reflection": {
+                "min": 27,
+                "max": 117
+            },
+            "walkSpeed": {
+                "min": 54,
+                "max": 234
+            },
+            "exploding": {
+                "min": 15,
+                "max": 65
+            },
+            "airDamage": {
+                "min": 5,
+                "max": 20
+            }
+        }
+    },
+    "Alkatraz": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": 12,
+                "max": 52
+            },
+            "exploding": {
+                "min": 12,
+                "max": 52
+            },
+            "earthDamage": {
+                "min": 12,
+                "max": 52
+            }
+        }
+    },
+    "Quetzalcoatl": {
+        "identifications": {
+            "rawMainAttackDamage": {
+                "min": 29,
+                "max": 124
+            },
+            "rawSpellDamage": {
+                "min": 81,
+                "max": 351
+            },
+            "lifeSteal": {
+                "min": 427,
+                "max": 1850
+            },
+            "healingEfficiency": {
+                "min": -52,
+                "max": -28
+            },
+            "walkSpeed": {
+                "min": 8,
+                "max": 36
+            },
+            "jumpHeight": {
+                "min": 1,
+                "max": 3
+            }
+        }
+    },
+    "Pure": {
+        "identifications": {
+            "mainAttackDamage": {
+                "min": -130,
+                "max": -70
+            },
+            "spellDamage": {
+                "min": 120,
+                "max": 520
+            },
+            "manaSteal": {
+                "min": 6,
+                "max": 26
+            },
+            "reflection": {
+                "min": 6,
+                "max": 26
+            },
+            "xpBonus": {
+                "min": 9,
+                "max": 39
+            }
+        }
+    },
+    "Apocalypse": {
+        "identifications": {
+            "healthRegen": {
+                "min": -162,
+                "max": -87
+            },
+            "lifeSteal": {
+                "min": 277,
+                "max": 1200
+            },
+            "3rdSpellCost": {
+                "min": 26,
+                "max": 14
+            },
+            "exploding": {
+                "min": 185,
+                "max": 801
+            },
+            "waterDamage": {
+                "min": -65,
+                "max": -35
+            },
+            "waterDefence": {
+                "min": -91,
+                "max": -49
+            },
+            "fireDefence": {
+                "min": 75,
+                "max": 325
+            }
+        }
+    },
+    "Grimtrap": {
+        "identifications": {
+            "poison": {
+                "min": 3000,
+                "max": 13000
+            },
+            "lifeSteal": {
+                "min": 195,
+                "max": 845
+            },
+            "manaSteal": {
+                "min": -13,
+                "max": -7
+            },
+            "raw2ndSpellCost": {
+                "min": 5,
+                "max": 3
+            },
+            "raw4thSpellCost": {
+                "min": -3,
+                "max": -13
+            },
+            "thorns": {
+                "min": 21,
+                "max": 91
+            }
+        }
+    },
+    "Clouded Tome of Armour Mastery II": {
+        "identifications": {
+            "airDefence": {
+                "min": 3,
+                "max": 13
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    },
+    "Seismic Tome of Weapon Mastery III": {
+        "identifications": {
+            "earthDamage": {
+                "min": 2,
+                "max": 10
+            }
+        }
+    },
+    "Astral Tome of Weapon Mastery II": {
+        "identifications": {
+            "earthDamage": {
+                "min": 2,
+                "max": 7
+            },
+            "thunderDamage": {
+                "min": 2,
+                "max": 7
+            },
+            "waterDamage": {
+                "min": 2,
+                "max": 7
+            },
+            "fireDamage": {
+                "min": 2,
+                "max": 7
+            },
+            "airDamage": {
+                "min": 2,
+                "max": 7
+            }
+        }
+    },
+    "Voltaic Tome of Weapon Mastery II": {
+        "identifications": {
+            "thunderDamage": {
+                "min": 2,
+                "max": 9
+            }
+        }
+    },
+    "Courageous Tome of Armour Mastery II": {
+        "identifications": {
+            "fireDefence": {
+                "min": 3,
+                "max": 13
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    },
+    "Abyssal Tome of Weapon Mastery III": {
+        "identifications": {
+            "waterDamage": {
+                "min": 2,
+                "max": 10
+            }
+        }
+    },
+    "Blooming Tome of Armour Mastery II": {
+        "identifications": {
+            "earthDefence": {
+                "min": 3,
+                "max": 13
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    },
+    "Seismic Tome of Weapon Mastery II": {
+        "identifications": {
+            "earthDamage": {
+                "min": 2,
+                "max": 9
+            }
+        }
+    },
+    "Abyssal Tome of Weapon Mastery II": {
+        "identifications": {
+            "waterDamage": {
+                "min": 2,
+                "max": 9
+            }
+        }
+    },
+    "Infernal Tome of Weapon Mastery II": {
+        "identifications": {
+            "fireDamage": {
+                "min": 2,
+                "max": 9
+            }
+        }
+    },
+    "Radiant Tome of Armour Mastery II": {
+        "identifications": {
+            "earthDefence": {
+                "min": 2,
+                "max": 8
+            },
+            "thunderDefence": {
+                "min": 2,
+                "max": 8
+            },
+            "waterDefence": {
+                "min": 2,
+                "max": 8
+            },
+            "fireDefence": {
+                "min": 2,
+                "max": 8
+            },
+            "airDefence": {
+                "min": 2,
+                "max": 8
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    },
+    "Infernal Tome of Weapon Mastery III": {
+        "identifications": {
+            "fireDamage": {
+                "min": 2,
+                "max": 10
+            }
+        }
+    },
+    "Pulsing Tome of Armour Mastery II": {
+        "identifications": {
+            "thunderDefence": {
+                "min": 3,
+                "max": 13
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    },
+    "Voltaic Tome of Weapon Mastery III": {
+        "identifications": {
+            "thunderDamage": {
+                "min": 2,
+                "max": 10
+            }
+        }
+    },
+    "Cyclonic Tome of Weapon Mastery III": {
+        "identifications": {
+            "airDamage": {
+                "min": 2,
+                "max": 10
+            }
+        }
+    },
+    "Cyclonic Tome of Weapon Mastery II": {
+        "identifications": {
+            "airDamage": {
+                "min": 2,
+                "max": 9
+            }
+        }
+    },
+    "Astral Tome of Weapon Mastery III": {
+        "identifications": {
+            "earthDamage": {
+                "min": 2,
+                "max": 8
+            },
+            "thunderDamage": {
+                "min": 2,
+                "max": 8
+            },
+            "waterDamage": {
+                "min": 2,
+                "max": 8
+            },
+            "fireDamage": {
+                "min": 2,
+                "max": 8
+            },
+            "airDamage": {
+                "min": 2,
+                "max": 8
+            }
+        }
+    },
+    "Oceanic Tome of Armour Mastery II": {
+        "identifications": {
+            "waterDefence": {
+                "min": 3,
+                "max": 13
+            },
+            "rawHealth": {
+                "min": 66,
+                "max": 286
+            }
+        }
+    }
+}

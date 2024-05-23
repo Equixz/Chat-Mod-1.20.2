@@ -1,0 +1,326 @@
+{
+  "Apocalypse": {
+    "lifeSteal": 60.0,
+    "3rdSpellCost": 20.0,
+    "healthRegen": 15.0,
+    "exploding": 5.0
+  },
+  "Hero": {
+    "walkSpeed": 80.0,
+    "healthRegen": 19.0,
+    "mainAttackDamage": 1.0
+  },
+  "Guardian": {
+    "healthRegenRaw": 50.0,
+    "rawHealth": 50.0
+  },
+  "Alkatraz": {
+    "earthDamage": 47.5,
+    "mainAttackDamage": 42.5,
+    "exploding": 10.0
+  },
+  "Idol": {
+    "raw2ndSpellCost": 55.0,
+    "rawSpellDamage": 25.0,
+    "manaRegen": 15.0,
+    "reflection": 5.0
+  },
+  "Thrundacrack": {
+    "raw3rdSpellCost": 45.0,
+    "thunderDamage": 27.5,
+    "waterDamage": 22.5,
+    "healthRegen": 4.0,
+    "walkSpeed": 1.0
+  },
+  "Collapse": {
+    "manaSteal": 80.0,
+    "mainAttackDamage": 20.0
+  },
+  "Convergence": {
+    "3rdSpellCost": 70.0,
+    "healthRegen": 12.5,
+    "earthDamage": 12.5,
+    "thunderDamage": 5.0
+  },
+  "Az": {
+    "1stSpellCost": 70.0,
+    "fireDamage": 10.0,
+    "waterDamage": 10.0,
+    "xpBonus": 10.0
+  },
+  "Freedom": {
+    "manaRegen": 60.0,
+    "rawHealth": 20.0,
+    "walkSpeed": 10.0,
+    "rawSpellDamage": 10.0
+  },
+  "Grandmother": {
+    "healthRegenRaw": 50.0,
+    "spellDamage": 35.0,
+    "healthRegen": 12.5,
+    "walkSpeed": 2.5
+  },
+  "Ignis": {
+    "healthRegenRaw": 40.0,
+    "healthRegen": 25.0,
+    "rawHealth": 20.0,
+    "4thSpellCost": 10.0,
+    "fireDamage": 5.0
+  },
+  "Divzer": {
+    "manaSteal": 70.0,
+    "lifeSteal": 20.0,
+    "rawSpellDamage": 10.0
+  },
+  "Spring": {
+    "manaRegen": 79.0,
+    "waterDamage": 20.0,
+    "thunderDamage": 1.0
+  },
+  "Stratiformis": {
+    "walkSpeed": 80.0,
+    "rawHealth": 18.0,
+    "spellDamage": 2.0
+  },
+  "Epoch": {
+    "rawMainAttackDamage": 65.0,
+    "lifeSteal": 20.0,
+    "spellDamage": 10.0,
+    "walkSpeed": 5.0
+  },
+  "Pure": {
+    "spellDamage": 65.0,
+    "manaSteal": 22.5,
+    "xpBonus": 12.5
+  },
+  "Lament": {
+    "healingEfficiency": 35.0,
+    "waterDamage": 35.0,
+    "manaSteal": 17.5,
+    "1stSpellCost": 12.5
+  },
+  "Gaia": {
+    "rawMainAttackDamage": 70.0,
+    "mainAttackDamage": 25.0,
+    "poison": 5.0
+  },
+  "Monster": {
+    "rawHealth": 37.5,
+    "manaSteal": 27.5,
+    "raw1stSpellCost": 17.5,
+    "lifeSteal": 10.0,
+    "fireDamage": 7.5
+  },
+  "Singularity": {
+    "rawSpellDamage": 40.0,
+    "walkSpeed": 25.0,
+    "healthRegenRaw": 15.0,
+    "spellDamage": 10.0,
+    "rawMainAttackDamage": 7.5,
+    "mainAttackDamage": 2.5
+  },
+  "Fatal": {
+    "spellDamage": 40.0,
+    "1stSpellCost": 25.0,
+    "2ndSpellCost": 20.0,
+    "manaSteal": 10.0,
+    "walkSpeed": 5.0
+  },
+  "Warp": {
+    "healthRegenRaw": 27.5,
+    "walkSpeed": 25.0,
+    "manaRegen": 22.5,
+    "raw2ndSpellCost": 10.0,
+    "healthRegen": 7.5,
+    "airDamage": 5.0,
+    "raw1stSpellCost": 2.5
+  },
+  "Quetzalcoatl": {
+    "rawSpellDamage": 50.0,
+    "lifeSteal": 25.0,
+    "healingEfficiency": 15.0,
+    "walkSpeed": 10.0
+  },
+  "Aftershock": {
+    "rawHealth": 70.0,
+    "earthDamage": 25.0,
+    "4thSpellCost": 5.0
+  },
+  "Olympic": {
+    "jumpHeight": 40.0,
+    "walkSpeed": 35.0,
+    "airDamage": 12.5,
+    "raw1stSpellCost": 10.0,
+    "raw2ndSpellCost": 2.5
+  },
+  "Hadal": {
+    "spellDamage": 50.0,
+    "3rdSpellCost": 20.0,
+    "manaRegen": 20.0,
+    "4thSpellCost": 10.0
+  },
+  "Sunstar": {
+    "rawMainAttackDamage": 60.0,
+    "lifeSteal": 30.0,
+    "thunderDamage": 10.0
+  },
+  "Toxoplasmosis": {
+    "poison": 85.0,
+    "lootBonus": 12.5,
+    "walkSpeed": 2.5
+  },
+  "Fantasia": {
+    "3rdSpellCost": 27.5,
+    "spellDamage": 22.5,
+    "manaRegen": 20.0,
+    "1stSpellCost": 15.0,
+    "4thSpellCost": 8.0,
+    "manaSteal": 6.0,
+    "2ndSpellCost": 1.0
+  },
+  "Absolution": {
+    "healingEfficiency": 50.0,
+    "rawHealth": 22.5,
+    "manaRegen": 17.5,
+    "raw1stSpellCost": 9.0,
+    "fireDamage": 1.0
+  },
+  "Immolation": {
+    "fireDamage": 30.0,
+    "airDamage": 30.0,
+    "3rdSpellCost": 22.5,
+    "healthRegen": 17.5
+  },
+  "Archangel": {
+    "walkSpeed": 70.0,
+    "healthRegenRaw": 10.0,
+    "healthRegen": 10.0,
+    "rawHealth": 10.0
+  },
+  "Nullification": {
+    "lifeSteal": 65.0,
+    "manaSteal": 34.0,
+    "earthDefence": 0.2,
+    "thunderDefence": 0.2,
+    "waterDefence": 0.2,
+    "fireDefence": 0.2,
+    "airDefence": 0.2
+  },
+  "Cataclysm": {
+    "rawHealth": 50.0,
+    "raw1stSpellCost": 30.0,
+    "thunderDamage": 19.0,
+    "stealing": 1.0
+  },
+  "Grimtrap": {
+    "raw4thSpellCost": 50.0,
+    "manaSteal": 25.0,
+    "lifeSteal": 24.0,
+    "poison": 1.0
+  },
+  "Weathered": {
+    "walkSpeed": 40.0,
+    "manaSteal": 35.0,
+    "airDamage": 25.0
+  },
+  "Inferno": {
+    "rawMainAttackDamage": 35.0,
+    "fireDamage": 25.0,
+    "rawHealth": 25.0,
+    "mainAttackDamage": 10.0,
+    "healthRegen": 2.5,
+    "walkSpeed": 2.5
+  },
+  "Nirvana": {
+    "spellDamage": 32.5,
+    "manaRegen": 27.5,
+    "rawHealth": 22.5,
+    "manaSteal": 17.5
+  },
+  "Oblivion": {
+    "manaRegen": 35.0,
+    "raw2ndSpellCost": 25.0,
+    "rawSpellDamage": 20.0,
+    "manaSteal": 15.0,
+    "exploding": 5.0
+  },
+  "Discoverer": {
+    "lootBonus": 99.9,
+    "xpBonus": 0.1
+  },
+  "Crusade Sabatons": {
+    "rawHealth": 85.0,
+    "healthRegen": 10.0,
+    "walkSpeed": 5.0
+  },
+  "Resurgence": {
+    "manaRegen": 40.0,
+    "healthRegenRaw": 35.0,
+    "spellDamage": 20.0,
+    "walkSpeed": 5.0
+  },
+  "Galleon": {
+    "manaSteal": 42.5,
+    "earthDamage": 22.5,
+    "waterDamage": 20.0,
+    "lootBonus": 5.0,
+    "stealing": 5.0,
+    "mainAttackDamage": 2.5,
+    "poison": 2.5
+  },
+  "Boreal": {
+    "healthRegen": 50.0,
+    "healthRegenRaw": 30.0,
+    "manaRegen": 15.0,
+    "walkSpeed": 5.0
+  },
+  "Slayer": {
+    "3rdSpellCost": 47.5,
+    "walkSpeed": 25.0,
+    "healthRegenRaw": 20.0,
+    "rawMainAttackDamage": 5.0,
+    "stealing": 2.5
+  },
+  "Slayer (melee)": {
+    "rawMainAttackDamage": 37.5,
+    "walkSpeed": 25.0,
+    "healthRegenRaw": 20.0,
+    "3rdSpellCost": 15.0,
+    "stealing": 2.5
+  },
+  "Moontower": {
+    "walkSpeed": 95.0,
+    "airDefence": 2.5,
+    "waterDefence": 2.5
+  },
+  "Dawnbreak": {
+    "rawMainAttackDamage": 70.0,
+    "manaSteal": 15.0,
+    "lifeSteal": 10.0,
+    "thunderDamage": 2.5,
+    "fireDamage": 2.5
+  },
+  "Stardew": {
+    "rawSpellDamage": 25.0,
+    "manaRegen": 22.5,
+    "manaSteal": 20.0,
+    "waterDamage": 16.0,
+    "thunderDamage": 15.5,
+    "reflection": 1.0
+  },
+  "Warchief": {
+    "mainAttackDamage": 37.5,
+    "earthDamage": 35.0,
+    "rawMainAttackDamage": 20.0,
+    "exploding": 5.0,
+    "walkSpeed": 2.5
+  },
+  "Revenant": {
+    "rawMainAttackDamage": 35.0,
+    "walkSpeed": 15.0,
+    "rawHealth": 15.0,
+    "mainAttackDamage": 15.0,
+    "airDamage": 12.5,
+    "earthDamage": 5.0
+  }
+}

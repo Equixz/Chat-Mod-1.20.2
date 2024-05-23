@@ -1,7 +1,8 @@
-package me.equixz.chatmood;
+package me.equixz.chatmod;
 
-import me.equixz.chatmood.commands.Message;
-import me.equixz.chatmood.functions.MessageFunctions;
+import me.equixz.chatmod.commands.Message;
+import me.equixz.chatmod.functions.MessageFunctions;
+import me.equixz.chatmod.functions.NBTExtractor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -12,6 +13,7 @@ public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
     private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
     private static final KeyBinding switchWorldsLastBombbell = registerKeyBinding("Switch Worlds to latest Bombbell");
+    private static final KeyBinding nbtData = registerKeyBinding("Get NBT Data");
 
     @Override
     public void onInitializeClient() {
@@ -32,6 +34,9 @@ public class ChatModClient implements ClientModInitializer {
         }
         if (switchWorldsLastBombbell.wasPressed()) {
             MessageFunctions.switchToLatestBombbell();
+        }
+        if (nbtData.wasPressed()) {
+            NBTExtractor.getNBTData();
         }
     }
 }

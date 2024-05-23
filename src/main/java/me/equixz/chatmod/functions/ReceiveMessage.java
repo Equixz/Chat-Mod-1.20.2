@@ -1,9 +1,9 @@
-package me.equixz.chatmood.functions;
+package me.equixz.chatmod.functions;
 
-import me.equixz.chatmood.config.Config;
+import me.equixz.chatmod.config.Config;
 import net.minecraft.text.Text;
 
-import static me.equixz.chatmood.functions.MessageFunctions.sendLastBombbell;
+import static me.equixz.chatmod.functions.MessageFunctions.sendLastBombbell;
 
 public class ReceiveMessage {
     public void receiveMessages(Text message) {
@@ -32,9 +32,9 @@ public class ReceiveMessage {
                         Save(parts);
                     }
                 }
-            }
-            if (!configData.legalToggle) {
-                sendLastBombbell();
+                if (!configData.legalToggle) {
+                    sendLastBombbell();
+                }
             }
         }
     }

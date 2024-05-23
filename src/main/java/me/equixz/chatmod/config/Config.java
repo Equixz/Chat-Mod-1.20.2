@@ -1,4 +1,4 @@
-package me.equixz.chatmood.config;
+package me.equixz.chatmod.config;
 
 import com.google.gson.Gson;
 import net.minecraft.client.MinecraftClient;

@@ -1,4 +1,4 @@
-package me.equixz.chatmood.structure;
+package me.equixz.chatmod.structure;
 
 import java.io.File;
 import java.util.ArrayList;

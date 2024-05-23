@@ -1,7 +1,7 @@
-package me.equixz.chatmood;
+package me.equixz.chatmod;
 
-import me.equixz.chatmood.structure.FileCreation;
-import me.equixz.chatmood.structure.LoadData;
+import me.equixz.chatmod.structure.FileCreation;
+import me.equixz.chatmod.structure.LoadData;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +12,6 @@ public class ChatMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-//        try {
-//            new ModUpdater().checkForUpdate();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         FileCreation.createFile("config/ChatMod/Files/Crazy");
         FileCreation.createFile("config/ChatMod/Files/Uwu");
         String fileName = "config/ChatMod/Files/Crazy.txt";

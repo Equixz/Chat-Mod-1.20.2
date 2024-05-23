@@ -1,6 +1,6 @@
-package me.equixz.chatmood.structure;
+package me.equixz.chatmod.structure;
 
-import me.equixz.chatmood.ChatMod;
+import me.equixz.chatmod.ChatMod;
 
 import java.io.File;
 import java.io.IOException;

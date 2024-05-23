@@ -1,6 +1,6 @@
-package me.equixz.chatmood.mixin;
+package me.equixz.chatmod.mixin;
 
-import me.equixz.chatmood.functions.ReceiveMessage;
+import me.equixz.chatmod.functions.ReceiveMessage;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.text.Text;

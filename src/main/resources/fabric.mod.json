@@ -12,10 +12,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"me.equixz.chatmood.ChatMod"
+			"me.equixz.chatmod.ChatMod"
 		],
 		"client": [
-			"me.equixz.chatmood.ChatModClient"
+			"me.equixz.chatmod.ChatModClient"
 		]
 	},
 	"mixins": [
