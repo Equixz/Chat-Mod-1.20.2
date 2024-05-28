@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -28,17 +27,19 @@ public class ChatModClient implements ClientModInitializer {
     public void onInitializeClient() {
         Message.registerBaseCommand();
         ClientTickEvents.END_CLIENT_TICK.register(client -> handleClientTick());
-
         ScreenEvents.AFTER_INIT.register((client, screen, scaleWidth, scaleHeight) -> {
             // This works 100% fine
             if (screen != null) {
                 ScreenKeyboardEvents.afterKeyPress(screen).register((parent, key, scancode, modifiers) -> {
                     if (nbtData.matchesKey(key, scancode)) {
-                        System.out.println("After If Statement");
+                        Slot slot = getSlotUnderMouse((InventoryScreen) client.currentScreen, client.mouse.getX(), client.mouse.getY());
+                        if (slot != null && slot.hasStack()) {
+                            ItemStack itemStack = slot.getStack();
+                            NBTExtractor.getNBTData(itemStack);
+                        }
                     }
                 });
             }
-
         });
     }
 
@@ -58,28 +59,8 @@ public class ChatModClient implements ClientModInitializer {
         }
         if (nbtData.wasPressed()) {
             MinecraftClient client = MinecraftClient.getInstance();
-            handleNBTDataKey(client);
+            NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
         }
-    }
-
-    private static void handleNBTDataKey(MinecraftClient client) {
-        Screen currentScreen = client.currentScreen;
-        System.out.println("Current Screen " + currentScreen);
-        // current screen is null if the player is not in a gui screen but cant use the keybind while in a gui screen
-        if (currentScreen instanceof InventoryScreen inventoryScreen) {
-            System.out.println("After If Statement");
-            // Get the mouse position
-            double mouseX = client.mouse.getX();
-            double mouseY = client.mouse.getY();
-            // Calculate the slot under the mouse
-            Slot slot = getSlotUnderMouse(inventoryScreen, mouseX, mouseY);
-            if (slot != null && slot.hasStack()) {
-                System.out.println("Slot " + slot.getIndex());
-                ItemStack itemStack = slot.getStack();
-                NBTExtractor.getNBTData(itemStack);
-            }
-        }
-        NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
     }
 
     private static Slot getSlotUnderMouse(InventoryScreen inventoryScreen, double mouseX, double mouseY) {
