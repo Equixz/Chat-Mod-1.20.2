@@ -18,10 +18,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class NBTExtractor {
 
     private static Map<String, String> identificationMap;
-    private static Map<String, JsonObject > weightMap;
+    private static Map<String, JsonObject> weightMap;
     private static Map<String, JsonObject> itemMap;
 
     static {
@@ -92,11 +93,9 @@ public class NBTExtractor {
         return input.replaceAll("§[0-9A-FK-ORa-fk-or]", "");
     }
 
-    public static void getNBTData() {
+    public static void getNBTData(ItemStack itemStack) {
         ClientPlayerEntity player = Objects.requireNonNull(MinecraftClient.getInstance().player);
         List<KeyAndValue> keyAndValueList = new ArrayList<>();
-        MinecraftClient mc = MinecraftClient.getInstance();
-        ItemStack itemStack = mc.player.getMainHandStack();
         if (itemStack != null && itemStack.hasNbt()) {
             NbtCompound nbt = itemStack.getNbt();
             if (nbt != null && nbt.contains("display")) {

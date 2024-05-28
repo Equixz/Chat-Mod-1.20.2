@@ -6,8 +6,17 @@ import me.equixz.chatmod.functions.NBTExtractor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
+import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
@@ -19,6 +28,18 @@ public class ChatModClient implements ClientModInitializer {
     public void onInitializeClient() {
         Message.registerBaseCommand();
         ClientTickEvents.END_CLIENT_TICK.register(client -> handleClientTick());
+
+        ScreenEvents.AFTER_INIT.register((client, screen, scaleWidth, scaleHeight) -> {
+            // This works 100% fine
+            if (screen != null) {
+                ScreenKeyboardEvents.afterKeyPress(screen).register((parent, key, scancode, modifiers) -> {
+                    if (nbtData.matchesKey(key, scancode)) {
+                        System.out.println("After If Statement");
+                    }
+                });
+            }
+
+        });
     }
 
     private static KeyBinding registerKeyBinding(String description) {
@@ -36,7 +57,66 @@ public class ChatModClient implements ClientModInitializer {
             MessageFunctions.switchToLatestBombbell();
         }
         if (nbtData.wasPressed()) {
-            NBTExtractor.getNBTData();
+            MinecraftClient client = MinecraftClient.getInstance();
+            handleNBTDataKey(client);
+        }
+    }
+
+    private static void handleNBTDataKey(MinecraftClient client) {
+        Screen currentScreen = client.currentScreen;
+        System.out.println("Current Screen " + currentScreen);
+        // current screen is null if the player is not in a gui screen but cant use the keybind while in a gui screen
+        if (currentScreen instanceof InventoryScreen inventoryScreen) {
+            System.out.println("After If Statement");
+            // Get the mouse position
+            double mouseX = client.mouse.getX();
+            double mouseY = client.mouse.getY();
+            // Calculate the slot under the mouse
+            Slot slot = getSlotUnderMouse(inventoryScreen, mouseX, mouseY);
+            if (slot != null && slot.hasStack()) {
+                System.out.println("Slot " + slot.getIndex());
+                ItemStack itemStack = slot.getStack();
+                NBTExtractor.getNBTData(itemStack);
+            }
+        }
+        NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
+    }
+
+    private static Slot getSlotUnderMouse(InventoryScreen inventoryScreen, double mouseX, double mouseY) {
+        for (Slot slot : inventoryScreen.getScreenHandler().slots) {
+            if (isMouseOverSlot(slot, inventoryScreen, mouseX, mouseY)) {
+                return slot;
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("JavaReflectionMemberAccess")
+    private static boolean isMouseOverSlot(Slot slot, InventoryScreen inventoryScreen, double mouseX, double mouseY) {
+        try {
+            // Use reflection to access the protected fields x and y in Slot
+            Field slotXField = Slot.class.getDeclaredField("x");
+            Field slotYField = Slot.class.getDeclaredField("y");
+            slotXField.setAccessible(true);
+            slotYField.setAccessible(true);
+            int slotX = slotXField.getInt(slot);
+            int slotY = slotYField.getInt(slot);
+            // Use reflection to access the protected fields guiLeft and guiTop in HandledScreen
+            Field guiLeftField = InventoryScreen.class.getDeclaredField("x");
+            Field guiTopField = InventoryScreen.class.getDeclaredField("y");
+            guiLeftField.setAccessible(true);
+            guiTopField.setAccessible(true);
+            int guiLeft = guiLeftField.getInt(inventoryScreen);
+            int guiTop = guiTopField.getInt(inventoryScreen);
+            // Adjust mouse coordinates to be relative to the GUI
+            mouseX -= guiLeft;
+            mouseY -= guiTop;
+            // Check if the mouse is within the slot bounds
+            return mouseX >= slotX && mouseX < slotX + 16 && mouseY >= slotY && mouseY < slotY + 16;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            //noinspection CallToPrintStackTrace
+            e.printStackTrace();
+            return false;
         }
     }
 }
