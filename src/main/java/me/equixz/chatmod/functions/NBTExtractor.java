@@ -11,7 +11,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -20,7 +19,6 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class NBTExtractor {
-
     private static Map<String, String> identificationMap;
     private static Map<String, JsonObject> weightMap;
     private static Map<String, JsonObject> itemMap;
@@ -83,8 +81,8 @@ public class NBTExtractor {
         return map;
     }
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private static void createReverseIdentificationMap(Map<String, String> identificationMap) {
-        //noinspection MismatchedQueryAndUpdateOfCollection
         Map<String, String> reverseMap = new HashMap<>();
         identificationMap.forEach((key, value) -> reverseMap.put(value, key));
     }
@@ -104,6 +102,7 @@ public class NBTExtractor {
                     NbtList loreList = displayTag.getList("VV|Protocol1_14To1_13_2|Lore", 8);
                     String itemName = itemStack.getName().getString();
                     String itemName2 = stripColorCodes(itemName);
+                    String itemName3 = itemName2.replaceAll("À", "");
                     for (int i = 0; i < loreList.size(); i++) {
                         String loreEntry = loreList.getString(i);
                         if (loreEntry.startsWith("§7§a+") || loreEntry.startsWith("§7§a-") || loreEntry.startsWith("§7§c+") || loreEntry.startsWith("§7§c-")) {
@@ -117,11 +116,9 @@ public class NBTExtractor {
                                 String text = matcher.group(2);
                                 if (identificationMap.containsKey(text)) {
                                     String jsonKey = identificationMap.get(text);
-                                    if (jsonKey.contains("rawIntelligence") || jsonKey.contains("rawStrength") || jsonKey.contains("rawDexterity") || jsonKey.contains("rawAgility") || jsonKey.contains("rawDefence")) {
-                                        continue;
-                                    }
-                                    if (itemMap.containsKey(itemName2)) {
-                                        JsonObject itemObject = new Gson().fromJson(itemMap.get(itemName2), JsonObject.class);
+                                    if (jsonKey.contains("rawIntelligence") || jsonKey.contains("rawStrength") || jsonKey.contains("rawDexterity") || jsonKey.contains("rawAgility") || jsonKey.contains("rawDefence")) continue;
+                                    if (itemMap.containsKey(itemName3)) {
+                                        JsonObject itemObject = new Gson().fromJson(itemMap.get(itemName3), JsonObject.class);
                                         JsonObject identifications = itemObject.getAsJsonObject("identifications");
                                         if (identifications.has(jsonKey)) {
                                             JsonObject jsonValue = identifications.getAsJsonObject(jsonKey);
@@ -141,18 +138,18 @@ public class NBTExtractor {
             }
             String itemName = itemStack.getName().getString();
             String itemName2 = stripColorCodes(itemName);
+            String itemName3 = itemName2.replaceAll("À", "");
             List<Double> percentageList = new ArrayList<>();
-            if (weightMap.containsKey(itemName2)) {
-                JsonObject weightObject = weightMap.get(itemName2);
+            if (weightMap.containsKey(itemName3)) {
+                JsonObject weightObject = weightMap.get(itemName3);
                 for (Map.Entry<String, JsonElement> entry : weightObject.entrySet()) {
                     double percentage = getPercentage(entry, keyAndValueList);
                     percentageList.add(percentage);
-
                 }
             }
             double sum = percentageList.stream().mapToDouble(Double::doubleValue).sum();
             String formattedSum = String.format("%.2f", sum);
-            player.sendMessage(Text.literal("The weight of this " + itemName2 + " is: " + formattedSum).formatted(Formatting.GREEN), false);
+            player.sendMessage(Text.literal("The weight of this " + itemName3 + " is: " + formattedSum).formatted(Formatting.GREEN), false);
         } else {
             player.sendMessage(Text.literal("This item has no NBT Data.").formatted(Formatting.RED), false);
         }

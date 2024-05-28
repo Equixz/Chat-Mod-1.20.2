@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
@@ -17,6 +17,7 @@ import net.minecraft.screen.slot.Slot;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
     private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
@@ -28,19 +29,55 @@ public class ChatModClient implements ClientModInitializer {
         Message.registerBaseCommand();
         ClientTickEvents.END_CLIENT_TICK.register(client -> handleClientTick());
         ScreenEvents.AFTER_INIT.register((client, screen, scaleWidth, scaleHeight) -> {
-            // This works 100% fine
             if (screen != null) {
                 ScreenKeyboardEvents.afterKeyPress(screen).register((parent, key, scancode, modifiers) -> {
                     if (nbtData.matchesKey(key, scancode)) {
-                        Slot slot = getSlotUnderMouse((InventoryScreen) client.currentScreen, client.mouse.getX(), client.mouse.getY());
-                        if (slot != null && slot.hasStack()) {
-                            ItemStack itemStack = slot.getStack();
+                        Slot slotUnderMouse = getSlotUnderMouse();
+                        if (slotUnderMouse != null && slotUnderMouse.hasStack()) {
+                            ItemStack itemStack = slotUnderMouse.getStack();
+                            if (itemStack.getCount() != 1) return;
                             NBTExtractor.getNBTData(itemStack);
                         }
                     }
                 });
             }
         });
+    }
+
+    private Slot getSlotUnderMouse() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.currentScreen instanceof HandledScreen<?> handledScreen) {
+            double mouseX = client.mouse.getX() * client.getWindow().getScaledWidth() / client.getWindow().getWidth();
+            double mouseY = client.mouse.getY() * client.getWindow().getScaledHeight() / client.getWindow().getHeight();
+            try {
+                Field[] fields = HandledScreen.class.getDeclaredFields();
+                Field xField = null, yField = null;
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    if (field.getType() == int.class) {
+                        if (field.getName().equals("field_2776") || field.getName().equals("x")) {
+                            xField = field;
+                        } else if (field.getName().equals("field_2800") || field.getName().equals("y")) {
+                            yField = field;
+                        }
+                    }
+                }
+                int left = (int) Objects.requireNonNull(xField).get(handledScreen);
+                int top = (int) Objects.requireNonNull(yField).get(handledScreen);
+                for (Slot slot : handledScreen.getScreenHandler().slots) {
+                    int slotX = left + slot.x;
+                    int slotY = top + slot.y;
+                    int slotWidth = 16;
+                    int slotHeight = 16;
+                    if (mouseX >= slotX && mouseX < slotX + slotWidth && mouseY >= slotY && mouseY < slotY + slotHeight) {
+                        return slot;
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     private static KeyBinding registerKeyBinding(String description) {
@@ -60,44 +97,6 @@ public class ChatModClient implements ClientModInitializer {
         if (nbtData.wasPressed()) {
             MinecraftClient client = MinecraftClient.getInstance();
             NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
-        }
-    }
-
-    private static Slot getSlotUnderMouse(InventoryScreen inventoryScreen, double mouseX, double mouseY) {
-        for (Slot slot : inventoryScreen.getScreenHandler().slots) {
-            if (isMouseOverSlot(slot, inventoryScreen, mouseX, mouseY)) {
-                return slot;
-            }
-        }
-        return null;
-    }
-
-    @SuppressWarnings("JavaReflectionMemberAccess")
-    private static boolean isMouseOverSlot(Slot slot, InventoryScreen inventoryScreen, double mouseX, double mouseY) {
-        try {
-            // Use reflection to access the protected fields x and y in Slot
-            Field slotXField = Slot.class.getDeclaredField("x");
-            Field slotYField = Slot.class.getDeclaredField("y");
-            slotXField.setAccessible(true);
-            slotYField.setAccessible(true);
-            int slotX = slotXField.getInt(slot);
-            int slotY = slotYField.getInt(slot);
-            // Use reflection to access the protected fields guiLeft and guiTop in HandledScreen
-            Field guiLeftField = InventoryScreen.class.getDeclaredField("x");
-            Field guiTopField = InventoryScreen.class.getDeclaredField("y");
-            guiLeftField.setAccessible(true);
-            guiTopField.setAccessible(true);
-            int guiLeft = guiLeftField.getInt(inventoryScreen);
-            int guiTop = guiTopField.getInt(inventoryScreen);
-            // Adjust mouse coordinates to be relative to the GUI
-            mouseX -= guiLeft;
-            mouseY -= guiTop;
-            // Check if the mouse is within the slot bounds
-            return mouseX >= slotX && mouseX < slotX + 16 && mouseY >= slotY && mouseY < slotY + 16;
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            //noinspection CallToPrintStackTrace
-            e.printStackTrace();
-            return false;
         }
     }
 }
