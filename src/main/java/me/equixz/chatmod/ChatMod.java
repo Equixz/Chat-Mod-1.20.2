@@ -16,7 +16,7 @@ public class ChatMod implements ModInitializer {
         FileCreation.createFile("config/ChatMod/Files/Uwu");
         String fileName = "config/ChatMod/Files/Crazy.txt";
         String rawLink = "https://pastebin.com/raw/D4qNzZEU";
-        if (!isFileEmpty(fileName)) {
+        if (isFileEmpty(fileName)) {
             LOGGER.info("File {} is not empty. Skipping download.", fileName);
         } else {
             LoadData.downloadFile(fileName, rawLink);
@@ -24,7 +24,7 @@ public class ChatMod implements ModInitializer {
 
         fileName = "config/ChatMod/Files/Uwu.txt";
         rawLink = "https://pastebin.com/raw/zrv1X1SH";
-        if (!isFileEmpty(fileName)) {
+        if (isFileEmpty(fileName)) {
             LOGGER.info("File {} is not empty. Skipping download.", fileName);
         } else {
             LoadData.downloadFile(fileName, rawLink);
@@ -35,10 +35,10 @@ public class ChatMod implements ModInitializer {
         String filePath = "config/ChatMod/Files/";
         File file = new File(filePath, fileName);
         if (file.exists()) {
-            return file.length() == 0L;
+            return file.length() != 0L;
         } else {
             LOGGER.warn("File {} does not exist.", fileName);
-            return false;
+            return true;
         }
     }
 

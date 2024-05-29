@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.equixz.chatmod.ChatMod;
+import me.equixz.chatmod.record.KeyAndValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -100,16 +101,12 @@ public class NBTExtractor {
                 NbtCompound displayTag = nbt.getCompound("display");
                 if (displayTag.contains("VV|Protocol1_14To1_13_2|Lore")) {
                     NbtList loreList = displayTag.getList("VV|Protocol1_14To1_13_2|Lore", 8);
-                    String itemName = itemStack.getName().getString();
-                    String itemName2 = stripColorCodes(itemName);
-                    String itemName3 = itemName2.replaceAll("À", "");
+                    String itemName = stripColorCodes(itemStack.getName().getString()).replaceAll("À", "");
                     for (int i = 0; i < loreList.size(); i++) {
                         String loreEntry = loreList.getString(i);
                         if (loreEntry.startsWith("§7§a+") || loreEntry.startsWith("§7§a-") || loreEntry.startsWith("§7§c+") || loreEntry.startsWith("§7§c-")) {
-                            String strippedLoreEntry = stripColorCodes(loreEntry);
-                            String value = strippedLoreEntry.replaceAll(".*?(-?\\d+).*", "$1");
-                            String Entry = stripColorCodes(loreEntry);
-                            String filteredLoreEntry = Entry.replace("**", "").replace("*", "");
+                            String value = stripColorCodes(loreEntry).replaceAll(".*?(-?\\d+).*", "$1");
+                            String filteredLoreEntry = stripColorCodes(loreEntry).replace("**", "").replace("*", "");
                             Pattern pattern = Pattern.compile("([+-]?\\d+)\\s*(.*)");
                             Matcher matcher = pattern.matcher(filteredLoreEntry);
                             if (matcher.matches()) {
@@ -117,8 +114,8 @@ public class NBTExtractor {
                                 if (identificationMap.containsKey(text)) {
                                     String jsonKey = identificationMap.get(text);
                                     if (jsonKey.contains("rawIntelligence") || jsonKey.contains("rawStrength") || jsonKey.contains("rawDexterity") || jsonKey.contains("rawAgility") || jsonKey.contains("rawDefence")) continue;
-                                    if (itemMap.containsKey(itemName3)) {
-                                        JsonObject itemObject = new Gson().fromJson(itemMap.get(itemName3), JsonObject.class);
+                                    if (itemMap.containsKey(itemName)) {
+                                        JsonObject itemObject = new Gson().fromJson(itemMap.get(itemName), JsonObject.class);
                                         JsonObject identifications = itemObject.getAsJsonObject("identifications");
                                         if (identifications.has(jsonKey)) {
                                             JsonObject jsonValue = identifications.getAsJsonObject(jsonKey);
@@ -136,20 +133,17 @@ public class NBTExtractor {
                     }
                 }
             }
-            String itemName = itemStack.getName().getString();
-            String itemName2 = stripColorCodes(itemName);
-            String itemName3 = itemName2.replaceAll("À", "");
+            String itemName = stripColorCodes(itemStack.getName().getString()).replaceAll("À", "");
             List<Double> percentageList = new ArrayList<>();
-            if (weightMap.containsKey(itemName3)) {
-                JsonObject weightObject = weightMap.get(itemName3);
+            if (weightMap.containsKey(itemName)) {
+                JsonObject weightObject = weightMap.get(itemName);
                 for (Map.Entry<String, JsonElement> entry : weightObject.entrySet()) {
                     double percentage = getPercentage(entry, keyAndValueList);
                     percentageList.add(percentage);
                 }
             }
             double sum = percentageList.stream().mapToDouble(Double::doubleValue).sum();
-            String formattedSum = String.format("%.2f", sum);
-            player.sendMessage(Text.literal("The weight of this " + itemName3 + " is: " + formattedSum).formatted(Formatting.GREEN), false);
+            player.sendMessage(Text.literal("The weight of this " + itemName + " is: " + String.format("%.2f", sum)).formatted(Formatting.GREEN), false);
         } else {
             player.sendMessage(Text.literal("This item has no NBT Data.").formatted(Formatting.RED), false);
         }

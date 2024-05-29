@@ -19,12 +19,12 @@ public class LoadData {
                     writer.write(line);
                     writer.write("\n");
                 }
-                ChatMod.LOGGER.info("File downloaded successfully: " + fileName);
+                ChatMod.LOGGER.info("File downloaded successfully: {}", fileName);
             } catch (IOException e) {
-                ChatMod.LOGGER.warn("Error writing to file: " + e.getMessage());
+                ChatMod.LOGGER.warn("Error writing to file: {}", e.getMessage());
             }
         } catch (IOException e) {
-            ChatMod.LOGGER.warn("Error downloading file: " + e.getMessage());
+            ChatMod.LOGGER.warn("Error downloading file: {}", e.getMessage());
         }
     }
 }

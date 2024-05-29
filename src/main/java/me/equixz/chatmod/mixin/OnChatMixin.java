@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OnChatMixin {
     @Inject(method = "onGameMessage", at = @At("HEAD"))
     private void onGameMessage(GameMessageS2CPacket packet, CallbackInfo ci) {
-        String message = packet.content().getString();
-        ReceiveMessage.getReceiveMessageInstance().receiveMessages(Text.of(message));
+        ReceiveMessage.getReceiveMessageInstance().receiveMessages(Text.of(packet.content().getString()));
     }
 }

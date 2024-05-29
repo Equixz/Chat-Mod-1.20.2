@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@SuppressWarnings("ALL")
 public class Config {
 
     public static class ConfigData {
@@ -28,7 +29,10 @@ public class Config {
         public String lastBombType;
         public String lastBombWorld;
 
-        public ConfigData(boolean bombBellState, boolean combatXpBombEnabled, boolean professionXpBombEnabled, boolean professionSpeedBombEnabled, boolean dungeonBombEnabled, boolean lootBombEnabled, boolean legalToggle, int initialDelay, String messageToSend, String prefixToUse, String prefixBombbellToUse, String bombBellPrefix, String lastBombType, String lastBombWorld) {
+        public ConfigData(boolean bombBellState, boolean combatXpBombEnabled, boolean professionXpBombEnabled, boolean professionSpeedBombEnabled,
+                          boolean dungeonBombEnabled, boolean lootBombEnabled, boolean legalToggle, int initialDelay,
+                          String messageToSend, String prefixToUse, String prefixBombbellToUse, String bombBellPrefix,
+                          String lastBombType, String lastBombWorld) {
             this.bombBellState = bombBellState;
             this.combatXpBombEnabled = combatXpBombEnabled;
             this.professionXpBombEnabled = professionXpBombEnabled;
@@ -99,8 +103,7 @@ public class Config {
             if (!Files.exists(configFile)) {
                 Files.createDirectories(configDir);
                 Files.createFile(configFile);
-                configData = ConfigData.getDefault();
-                configData.save();
+                ConfigData.getDefault().save();
                 return configData;
             }
         } catch (IOException e) {

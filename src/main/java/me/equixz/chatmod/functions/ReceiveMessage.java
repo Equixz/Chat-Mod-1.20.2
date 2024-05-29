@@ -1,9 +1,8 @@
 package me.equixz.chatmod.functions;
 
 import me.equixz.chatmod.config.Config;
+import me.equixz.chatmod.functions.message.lastBombbell;
 import net.minecraft.text.Text;
-
-import static me.equixz.chatmod.functions.MessageFunctions.sendLastBombbell;
 
 public class ReceiveMessage {
     public void receiveMessages(Text message) {
@@ -33,7 +32,7 @@ public class ReceiveMessage {
                     }
                 }
                 if (!configData.legalToggle) {
-                    sendLastBombbell();
+                    lastBombbell.sendLastBombbell();
                 }
             }
         }

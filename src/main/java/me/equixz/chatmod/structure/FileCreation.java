@@ -27,12 +27,12 @@ public class FileCreation {
             boolean fileCreated = file.createNewFile();
 
             if (fileCreated) {
-                ChatMod.LOGGER.info("File created successfully: " + file.getAbsolutePath());
+                ChatMod.LOGGER.info("File created successfully: {}", file.getAbsolutePath());
             } else {
-                ChatMod.LOGGER.info("File already exists: " + file.getAbsolutePath());
+                ChatMod.LOGGER.info("File already exists: {}", file.getAbsolutePath());
             }
         } catch (IOException e) {
-            ChatMod.LOGGER.info("An error occurred while creating the file: " + e.getMessage());
+            ChatMod.LOGGER.info("An error occurred while creating the file: {}", e.getMessage());
         }
     }
 }

@@ -7,7 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.equixz.chatmod.config.Config;
-import me.equixz.chatmod.functions.MessageFunctions;
+import me.equixz.chatmod.functions.message.bombbellPrefix;
 import me.equixz.chatmod.structure.ListFilesInFolder;
 import me.equixz.chatmod.structure.LoadData;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -21,6 +21,11 @@ import net.minecraft.util.Formatting;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+
+import static me.equixz.chatmod.functions.message.cooldown.changeCooldown;
+import static me.equixz.chatmod.functions.message.message.*;
+import static me.equixz.chatmod.functions.message.prefix.*;
+import static me.equixz.chatmod.functions.message.prefixBombbell.changePrefixBombbell;
 
 public class Message {
     private static final String FOLDER_PATH = "config/ChatMod/Files";
@@ -39,7 +44,7 @@ public class Message {
                     .then(ClientCommandManager.argument("time", IntegerArgumentType.integer())
                         .executes(context -> {
                             int customTime = IntegerArgumentType.getInteger(context, "time");
-                            MessageFunctions.changeCooldown(Integer.toString(customTime));
+                            changeCooldown(Integer.toString(customTime));
                             return 0;
                         })
                     )
@@ -48,7 +53,7 @@ public class Message {
                     .then(ClientCommandManager.argument("prefix", StringArgumentType.greedyString())
                         .executes(context -> {
                             String customPrefix = StringArgumentType.getString(context, "prefix");
-                            MessageFunctions.changeBombBellPrefix(customPrefix);
+                            bombbellPrefix.changeBombBellPrefix(customPrefix);
                             return 0;
                         })
                     )
@@ -117,6 +122,7 @@ public class Message {
             field.setAccessible(true);
             return field.getBoolean(Config.getConfigData());
         } catch (NoSuchFieldException | IllegalAccessException e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
             return false;
         }
@@ -126,9 +132,9 @@ public class Message {
         LiteralArgumentBuilder<FabricClientCommandSource> dynamicPrefixCommand = ClientCommandManager.literal(prefixType)
             .executes(context -> {
                 if (prefixType.equals("chat")) {
-                    MessageFunctions.changePrefix("");
+                    changePrefix("");
                 } else if (prefixType.equals("bombbell")) {
-                    MessageFunctions.changePrefixBombbell("/g ");
+                    changePrefixBombbell("/g ");
                 }
                 return 0;
             });
@@ -145,9 +151,9 @@ public class Message {
                         case "n", "normal" -> prefix = "";
                     }
                     if (prefixType.equals("chat")) {
-                        MessageFunctions.changePrefix(prefix);
+                        changePrefix(prefix);
                     } else if (prefixType.equals("bombbell")) {
-                        MessageFunctions.changePrefixBombbell(prefix);
+                        changePrefixBombbell(prefix);
                     }
                     return 0;
                 })
@@ -169,7 +175,7 @@ public class Message {
         ClientPlayerEntity player = Objects.requireNonNull(MinecraftClient.getInstance().player);
         String fileName = StringArgumentType.getString(context, "file");
         if (fileExistsInFolder(fileName)) {
-            MessageFunctions.changeMessage(fileName);
+            changeMessage(fileName);
         } else {
             player.sendMessage(Text.literal("The specified file does not exist.").formatted(Formatting.RED), false);
         }
