@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@SuppressWarnings("ALL")
+@SuppressWarnings("CallToPrintStackTrace")
 public class Config {
 
     public static class ConfigData {
