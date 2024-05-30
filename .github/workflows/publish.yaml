@@ -15,5 +15,5 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           body_path: ${{ github.workspace }}-CHANGELOG.txt
-          repository: Equixz/chat-mod-1.20.2
+          repository: Equixz/Chat-Mod-1.20.2
           token: ${{ secrets.GITHUB_TOKEN }}
