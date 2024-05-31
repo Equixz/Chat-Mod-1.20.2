@@ -18,17 +18,15 @@ public class lastBombbell {
         String bombBellPrefix = configData.bombBellPrefix;
         String bombType = configData.lastBombType;
         String wcNumber = configData.lastBombWorld;
-        if (prefixBombbellToUse.isEmpty()) {
+        if (prefixBombbellToUse == null) {
             player.sendMessage(Text.literal("Please send your log file to a developer. Error #2452").formatted(Formatting.RED), false);
-            ChatMod.LOGGER.error(prefixBombbellToUse);
-            ChatMod.LOGGER.error("prefixBombbellToUse is empty.");
+            ChatMod.LOGGER.error("prefixBombbellToUse is empty. Value: {}", prefixBombbellToUse);
             configData.prefixBombbellToUse = "/g ";
             return;
         }
-        if (bombBellPrefix.isEmpty()) {
+        if (bombBellPrefix == null) {
             player.sendMessage(Text.literal("Please send your log file to a developer. Error #2453").formatted(Formatting.RED), false);
-            ChatMod.LOGGER.error(bombBellPrefix);
-            ChatMod.LOGGER.error("bombBellPrefix is empty.");
+            ChatMod.LOGGER.error("bombBellPrefix is empty. Value: {}", bombBellPrefix);
             configData.bombBellPrefix = "|";
             return;
         }
