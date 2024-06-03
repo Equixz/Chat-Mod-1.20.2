@@ -124,6 +124,8 @@ public class NBTExtractor {
                                             double value2 = (((Double.parseDouble(value) - min) * 100) / (max - min));
                                             keyAndValueList.add(new KeyAndValue(jsonKey, value2));
                                         }
+                                    } else {
+                                        return;
                                     }
                                 } else {
                                     player.sendMessage(Text.literal(text + " (Unknown identification)").formatted(Formatting.RED), false);

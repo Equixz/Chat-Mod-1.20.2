@@ -35,9 +35,9 @@ public class ChatMod implements ModInitializer {
         String filePath = "config/ChatMod/Files/";
         File file = new File(filePath, fileName);
         if (file.exists()) {
+            LOGGER.warn("File {} does not exist.", fileName);
             return file.length() != 0L;
         } else {
-            LOGGER.warn("File {} does not exist.", fileName);
             return true;
         }
     }

@@ -17,11 +17,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-
 import static me.equixz.chatmod.functions.message.cooldown.changeCooldown;
 import static me.equixz.chatmod.functions.message.message.*;
 import static me.equixz.chatmod.functions.message.prefix.*;
@@ -164,10 +162,13 @@ public class Message {
 
     private static CompletableFuture<Suggestions> fileSuggestions(SuggestionsBuilder builder) {
         List<String> fileNames = ListFilesInFolder.listFilesWithoutExtension(FOLDER_PATH);
-        for (String fileName : fileNames) {
+        String remaining = builder.getRemaining().toLowerCase();
+        List<String> matchingFileNames = fileNames.stream()
+            .filter(name -> name.toLowerCase().startsWith(remaining))
+            .toList();
+        for (String fileName : matchingFileNames) {
             builder.suggest(fileName);
         }
-
         return builder.buildFuture();
     }
 
