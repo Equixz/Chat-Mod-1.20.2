@@ -4,6 +4,12 @@ import me.equixz.chatmod.config.Config;
 import me.equixz.chatmod.functions.message.lastBombbell;
 import net.minecraft.text.Text;
 
+/* data when thrown on the same world as the player
+[CHAT] &7Want to thank &f{USERNAME}&7? &b&nClick here to thank them!
+[CHAT] &b{USERNAME}&3 has thrown a &bLoot Bomb&3! The entire server gets &bdouble loot &3for &b20 minutes&3!
+ */
+
+
 public class ReceiveMessage {
     public void receiveMessages(Text message) {
         Config.ConfigData configData = Config.getConfigData();

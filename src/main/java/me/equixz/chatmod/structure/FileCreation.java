@@ -8,11 +8,8 @@ import java.io.IOException;
 public class FileCreation {
     public static void createFile(String newFileName) {
         String folderPath = "config/ChatMod/Files";
-
         String fileName = newFileName + ".txt";
-
         File folder = new File(folderPath);
-
         if (!folder.exists()) {
             boolean success = folder.mkdirs();
             if (!success) {
@@ -20,9 +17,7 @@ public class FileCreation {
                 return;
             }
         }
-
         File file = new File(fileName);
-
         try {
             boolean fileCreated = file.createNewFile();
 

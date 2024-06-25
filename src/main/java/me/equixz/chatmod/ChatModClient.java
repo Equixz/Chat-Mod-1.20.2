@@ -1,10 +1,8 @@
 package me.equixz.chatmod;
 
-import me.equixz.chatmod.commands.Message;
-import me.equixz.chatmod.functions.NBTExtractor;
-import me.equixz.chatmod.functions.getSlotUnderMouse;
-import me.equixz.chatmod.functions.message.chatMessage;
-import me.equixz.chatmod.functions.message.lastBombbell;
+import me.equixz.chatmod.commands.*;
+import me.equixz.chatmod.functions.*;
+import me.equixz.chatmod.functions.message.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -17,18 +15,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import java.util.Objects;
 
-import static me.equixz.chatmod.functions.message.latestBombbell.switchToLatestBombbell;
-
 public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
     private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
     private static final KeyBinding switchWorldsLastBombbell = registerKeyBinding("Switch Worlds to latest Bombbell");
     private static final KeyBinding nbtData = registerKeyBinding("Get NBT Data");
+    private static final KeyBinding test = registerKeyBinding("Test");
 
     @Override
     public void onInitializeClient() {
         Message.registerBaseCommand();
-        ClientTickEvents.END_CLIENT_TICK.register(client -> handleClientTick());
+        ClientTickEvents.END_CLIENT_TICK.register(this::handleClientTick);
         handleAfterInit();
     }
 
@@ -53,7 +50,10 @@ public class ChatModClient implements ClientModInitializer {
         return KeyBindingHelper.registerKeyBinding(new KeyBinding(description, InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "ChatMod"));
     }
 
-    private static void handleClientTick() {
+    private void handleClientTick(MinecraftClient client) {
+        if (test.wasPressed()) {
+            extractWCNumber.extractWC(client);
+        }
         if (sendMessageKey.wasPressed()) {
             chatMessage.sendChatMessage();
         }
@@ -61,10 +61,9 @@ public class ChatModClient implements ClientModInitializer {
             lastBombbell.sendLastBombbell();
         }
         if (switchWorldsLastBombbell.wasPressed()) {
-            switchToLatestBombbell();
+            latestBombbell.switchToLatestBombbell();
         }
         if (nbtData.wasPressed()) {
-            MinecraftClient client = MinecraftClient.getInstance();
             NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
         }
     }
