@@ -8,10 +8,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static me.equixz.chatmod.ChatMod.LOGGER;
-
 public class extractWCNumber {
-    public static void extractWC(MinecraftClient client) {
+    public static String extractWC() {
+        MinecraftClient client = MinecraftClient.getInstance();
         if (client != null && client.player != null && client.world != null) {
             Collection<PlayerListEntry> playerListEntries = Objects.requireNonNull(client.getNetworkHandler()).getPlayerList();
             for (PlayerListEntry playerListEntry : playerListEntries) {
@@ -20,15 +19,15 @@ public class extractWCNumber {
                     String displayName = playerListEntry.getDisplayName() != null ? playerListEntry.getDisplayName().getString() : "N/A";
                     Pattern pattern = Pattern.compile("\\[WC\\d+]");
                     Matcher matcher = pattern.matcher(displayName);
-                    String filteredDisplayName = "N/A";
+                    String filteredDisplayName;
                     if (matcher.find()) {
                         filteredDisplayName = matcher.group();
                         filteredDisplayName = filteredDisplayName.replace("[WC", "").replace("]", "");
+                        return filteredDisplayName;
                     }
-                    LOGGER.info("Current World: {}", filteredDisplayName);
-                    return;
                 }
             }
         }
+        return null;
     }
 }

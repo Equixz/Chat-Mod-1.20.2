@@ -20,13 +20,13 @@ public class lastBombbell {
         String wcNumber = configData.lastBombWorld;
         if (prefixBombbellToUse == null) {
             player.sendMessage(Text.literal("Please send your log file to a developer. Error #2452").formatted(Formatting.RED), false);
-            ChatMod.LOGGER.error("prefixBombbellToUse is empty. Value: {}", prefixBombbellToUse);
+            ChatMod.LOGGER.error("prefixBombbellToUse is empty. Value: {}", (Object) null);
             configData.prefixBombbellToUse = "/g ";
             return;
         }
         if (bombBellPrefix == null) {
             player.sendMessage(Text.literal("Please send your log file to a developer. Error #2453").formatted(Formatting.RED), false);
-            ChatMod.LOGGER.error("bombBellPrefix is empty. Value: {}", bombBellPrefix);
+            ChatMod.LOGGER.error("bombBellPrefix is empty. Value: {}", (Object) null);
             configData.bombBellPrefix = "|";
             return;
         }

@@ -20,7 +20,6 @@ public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
     private static final KeyBinding switchWorldsLastBombbell = registerKeyBinding("Switch Worlds to latest Bombbell");
     private static final KeyBinding nbtData = registerKeyBinding("Get NBT Data");
-    private static final KeyBinding test = registerKeyBinding("Test");
 
     @Override
     public void onInitializeClient() {
@@ -39,6 +38,7 @@ public class ChatModClient implements ClientModInitializer {
                             ItemStack itemStack = slotUnderMouse.getStack();
                             if (itemStack.getCount() != 1) return;
                             NBTExtractor.getNBTData(itemStack);
+                            System.out.println(itemStack.getNbt());
                         }
                     }
                 });
@@ -51,9 +51,6 @@ public class ChatModClient implements ClientModInitializer {
     }
 
     private void handleClientTick(MinecraftClient client) {
-        if (test.wasPressed()) {
-            extractWCNumber.extractWC(client);
-        }
         if (sendMessageKey.wasPressed()) {
             chatMessage.sendChatMessage();
         }

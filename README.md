@@ -1,6 +1,5 @@
 # To-do List
 - [ ] Make the cooldown take in seconds instead of ticks for ease of use
-- [ ] Add special case, so it works when the bomb comes from the world user is in
 
 ## Extra Information
 90% of this code was made by a brain-dead person at 4 am.<br>

@@ -99,8 +99,8 @@ public class NBTExtractor {
             NbtCompound nbt = itemStack.getNbt();
             if (nbt != null && nbt.contains("display")) {
                 NbtCompound displayTag = nbt.getCompound("display");
-                if (displayTag.contains("VV|Protocol1_14To1_13_2|Lore")) {
-                    NbtList loreList = displayTag.getList("VV|Protocol1_14To1_13_2|Lore", 8);
+                if (displayTag.contains("VV|Protocol1_13_2To1_14|Lore")) {
+                    NbtList loreList = displayTag.getList("VV|Protocol1_13_2To1_14|Lore", 8);
                     String itemName = stripColorCodes(itemStack.getName().getString()).replaceAll("À", "");
                     for (int i = 0; i < loreList.size(); i++) {
                         String loreEntry = loreList.getString(i);

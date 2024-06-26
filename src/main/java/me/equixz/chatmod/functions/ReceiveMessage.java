@@ -3,11 +3,9 @@ package me.equixz.chatmod.functions;
 import me.equixz.chatmod.config.Config;
 import me.equixz.chatmod.functions.message.lastBombbell;
 import net.minecraft.text.Text;
-
-/* data when thrown on the same world as the player
-[CHAT] &7Want to thank &f{USERNAME}&7? &b&nClick here to thank them!
-[CHAT] &b{USERNAME}&3 has thrown a &bLoot Bomb&3! The entire server gets &bdouble loot &3for &b20 minutes&3!
- */
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class ReceiveMessage {
@@ -15,10 +13,8 @@ public class ReceiveMessage {
         Config.ConfigData configData = Config.getConfigData();
         if (configData != null && configData.bombBellState) {
             String unformattedMessage = message.getString().replaceAll("(?i)§[0-9A-FK-ORXa-fk-orx]", "");
-
             if (unformattedMessage.startsWith("[Bomb Bell]")) {
                 unformattedMessage = unformattedMessage.substring("[Bomb Bell]".length()).trim();
-
                 int thrownIndex = unformattedMessage.indexOf("thrown a");
                 if (thrownIndex != -1) {
                     unformattedMessage = unformattedMessage.substring(thrownIndex + "thrown a".length()).trim();
@@ -26,28 +22,47 @@ public class ReceiveMessage {
                 String[] parts = unformattedMessage.split("on WC");
                 if (parts.length == 2) {
                     if ((parts[0].contains("Combat XP") && configData.combatXpBombEnabled)) {
-                        Save(parts);
+                        Save(parts[0].trim(), parts[1].trim());
                     } else if ((parts[0].contains("Profession XP") && configData.professionXpBombEnabled)) {
-                        Save(parts);
+                        Save(parts[0].trim(), parts[1].trim());
                     } else if ((parts[0].contains("Profession Speed") && configData.professionSpeedBombEnabled)) {
-                        Save(parts);
+                        Save(parts[0].trim(), parts[1].trim());
                     } else if ((parts[0].contains("Dungeon") && configData.dungeonBombEnabled)) {
-                        Save(parts);
+                        Save(parts[0].trim(), parts[1].trim());
                     } else if ((parts[0].contains("Loot") && configData.lootBombEnabled)) {
-                        Save(parts);
+                        Save(parts[0].trim(), parts[1].trim());
                     }
                 }
-                if (!configData.legalToggle) {
-                    lastBombbell.sendLastBombbell();
+            } else if (unformattedMessage.contains("The entire server gets")) {
+                unformattedMessage = unformattedMessage.replaceAll("!", "");
+                String[] keywords = {"Combat XP", "Profession XP", "Profession Speed", "Dungeon", "Loot"};
+                String patternString = "\\b(" + String.join("|", keywords) + ")\\b";
+                Pattern pattern = Pattern.compile(patternString);
+                Matcher matcher = pattern.matcher(unformattedMessage);
+                String world = Optional.ofNullable(extractWCNumber.extractWC()).orElse("0");
+                String bomb = matcher.group() + " Bomb";
+                if ((matcher.group().contains("Combat XP") && configData.combatXpBombEnabled)) {
+                    Save(bomb, world);
+                } else if ((matcher.group().contains("Profession XP") && configData.professionXpBombEnabled)) {
+                    Save(bomb, world);
+                } else if ((matcher.group().contains("Profession Speed") && configData.professionSpeedBombEnabled)) {
+                    Save(bomb, world);
+                } else if ((matcher.group().contains("Dungeon") && configData.dungeonBombEnabled)) {
+                    Save(bomb, world);
+                } else if ((matcher.group().contains("Loot") && configData.lootBombEnabled)) {
+                    Save(bomb, world);
                 }
+            }
+            if (!configData.legalToggle) {
+                lastBombbell.sendLastBombbell();
             }
         }
     }
 
-    private void Save(String[] parts) {
+    private void Save(String type, String world) {
         Config.ConfigData configData = Config.getConfigData();
-        configData.lastBombType = parts[0].trim();
-        configData.lastBombWorld = parts[1].trim();
+        configData.lastBombType = type;
+        configData.lastBombWorld = world;
         configData.save();
     }
 
