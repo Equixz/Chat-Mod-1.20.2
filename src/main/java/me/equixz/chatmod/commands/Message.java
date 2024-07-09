@@ -1,12 +1,17 @@
 package me.equixz.chatmod.commands;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import me.equixz.chatmod.ChatMod;
 import me.equixz.chatmod.config.Config;
+import me.equixz.chatmod.functions.NBTExtractor;
 import me.equixz.chatmod.functions.message.bombbellPrefix;
 import me.equixz.chatmod.structure.ListFilesInFolder;
 import me.equixz.chatmod.structure.LoadData;
@@ -15,23 +20,54 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+
+import static me.equixz.chatmod.functions.JsonObjectMap.createJsonObjectMap;
 import static me.equixz.chatmod.functions.message.cooldown.changeCooldown;
 import static me.equixz.chatmod.functions.message.message.*;
 import static me.equixz.chatmod.functions.message.prefix.*;
 import static me.equixz.chatmod.functions.message.prefixBombbell.changePrefixBombbell;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class Message {
     private static final String FOLDER_PATH = "config/ChatMod/Files";
+    private static Map<String, JsonObject> itemMap;
+
+    static {
+        try (InputStream inputStream = NBTExtractor.class.getClassLoader().getResourceAsStream("mythic_weights.json")) {
+            if (inputStream != null) {
+                Gson gson = new Gson();
+                JsonObject jsonObject = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
+
+                itemMap = createJsonObjectMap(jsonObject);
+            } else {
+                ChatMod.LOGGER.error("mythic_weights.json not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void registerBaseCommand() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registry) -> {
             LiteralArgumentBuilder<FabricClientCommandSource> baseCommand = ClientCommandManager.literal("chat")
+                .then(ClientCommandManager.literal("getweight")
+                    .then(ClientCommandManager.argument("mythic", StringArgumentType.greedyString())
+                        .suggests(((context, builder) -> mythicSuggestions(builder)))
+                        .executes(Message::mythicGetWeight)
+                    )
+                )
                 .then(ClientCommandManager.literal("message")
                     .then(ClientCommandManager.argument("file", StringArgumentType.word())
                         .suggests((context, builder) -> fileSuggestions(builder))
@@ -172,6 +208,18 @@ public class Message {
         return builder.buildFuture();
     }
 
+    private static CompletableFuture<Suggestions> mythicSuggestions(SuggestionsBuilder builder) {
+        Set<String> mythicKeys = itemMap.keySet();
+        String remaining = builder.getRemaining().toLowerCase();
+        List<String> matchingKeys = mythicKeys.stream()
+                .filter(key -> key.toLowerCase().startsWith(remaining))
+                .toList();
+        for (String key : matchingKeys) {
+            builder.suggest(key);
+        }
+        return builder.buildFuture();
+    }
+
     private static int executeCommand(CommandContext<FabricClientCommandSource> context) {
         ClientPlayerEntity player = Objects.requireNonNull(MinecraftClient.getInstance().player);
         String fileName = StringArgumentType.getString(context, "file");
@@ -187,5 +235,23 @@ public class Message {
     private static boolean fileExistsInFolder(String fileName) {
         List<String> fileNames = ListFilesInFolder.listFilesWithoutExtension(FOLDER_PATH);
         return fileNames.contains(fileName);
+    }
+
+    public static int mythicGetWeight(CommandContext<FabricClientCommandSource> context) {
+        ClientPlayerEntity player = Objects.requireNonNull(MinecraftClient.getInstance().player);
+        String mythicName = StringArgumentType.getString(context, "mythic");
+        assert MinecraftClient.getInstance().player != null;
+        if (itemMap.containsKey(mythicName)) {
+            JsonObject mythicData = itemMap.get(mythicName);
+            MutableText message = Text.literal(mythicName).formatted(Formatting.GREEN);
+            player.sendMessage(message, false);
+            for (Map.Entry<String, JsonElement> entry : mythicData.entrySet()) {
+                player.sendMessage(Text.literal("* " + entry.getKey() + ": " + entry.getValue().getAsString() + "%").formatted(Formatting.GREEN), false);
+            }
+            return 1;
+        } else {
+            player.sendMessage(Text.literal("Mythic item not found: " + mythicName).formatted(Formatting.RED), false);
+            return 0;
+        }
     }
 }

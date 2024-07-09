@@ -281,13 +281,6 @@
     "rawMainAttackDamage": 5.0,
     "stealing": 2.5
   },
-  "Slayer (melee)": {
-    "rawMainAttackDamage": 37.5,
-    "walkSpeed": 25.0,
-    "healthRegenRaw": 20.0,
-    "3rdSpellCost": 15.0,
-    "stealing": 2.5
-  },
   "Moontower": {
     "walkSpeed": 95.0,
     "airDefence": 2.5,

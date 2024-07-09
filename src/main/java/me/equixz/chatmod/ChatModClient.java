@@ -15,8 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import java.util.Objects;
 
-import static me.equixz.chatmod.functions.NBTExtractor.processItemStack;
-
 public class ChatModClient implements ClientModInitializer {
     private static final KeyBinding sendMessageKey = registerKeyBinding("Send Group Messages");
     private static final KeyBinding sendLastBombbell = registerKeyBinding("Send Last Bombbell");
@@ -40,7 +38,6 @@ public class ChatModClient implements ClientModInitializer {
                             ItemStack itemStack = slotUnderMouse.getStack();
                             if (itemStack.getCount() != 1) return;
                             NBTExtractor.getNBTData(itemStack);
-                            processItemStack(itemStack);
                         }
                     }
                 });
@@ -64,7 +61,6 @@ public class ChatModClient implements ClientModInitializer {
         }
         if (nbtData.wasPressed()) {
             NBTExtractor.getNBTData(Objects.requireNonNull(client.player).getMainHandStack());
-            processItemStack(Objects.requireNonNull(client.player).getMainHandStack());
         }
     }
 }

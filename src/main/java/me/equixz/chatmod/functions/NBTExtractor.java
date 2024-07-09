@@ -18,7 +18,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import static me.equixz.chatmod.functions.JsonObjectMap.createJsonObjectMap;
+import static me.equixz.chatmod.functions.StringMap.createStringMap;
 import static net.minecraft.datafixer.fix.BlockEntitySignTextStrictJsonFix.GSON;
 
 @SuppressWarnings("CallToPrintStackTrace")
@@ -33,8 +34,7 @@ public class NBTExtractor {
                 Gson gson = new Gson();
                 JsonObject jsonObject = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
 
-                identificationMap = createIdentificationMap(jsonObject);
-                createReverseIdentificationMap(identificationMap);
+                identificationMap = createStringMap(jsonObject);
             } else {
                 ChatMod.LOGGER.error("ids.json not found.");
             }
@@ -46,7 +46,7 @@ public class NBTExtractor {
                 Gson gson = new Gson();
                 JsonObject jsonObject = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
 
-                weightMap = createMythicMap(jsonObject);
+                weightMap = createJsonObjectMap(jsonObject);
             } else {
                 ChatMod.LOGGER.error("mythic_weights.json not found.");
             }
@@ -58,37 +58,13 @@ public class NBTExtractor {
                 Gson gson = new Gson();
                 JsonObject jsonObject = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
 
-                itemMap = createMythicMap(jsonObject);
+                itemMap = createJsonObjectMap(jsonObject);
             } else {
                 ChatMod.LOGGER.error("mythics.json not found.");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static Map<String, JsonObject> createMythicMap(JsonObject jsonObject) {
-        Map<String, JsonObject> map = new HashMap<>();
-        jsonObject.entrySet().forEach(entry -> map.put(entry.getKey(), entry.getValue().getAsJsonObject()));
-        return map;
-    }
-
-    private static Map<String, String> createIdentificationMap(JsonObject jsonObject) {
-        Map<String, String> map = new HashMap<>();
-        jsonObject.entrySet().forEach(entry -> {
-            if (entry.getValue().isJsonArray()) {
-                entry.getValue().getAsJsonArray().forEach(element -> map.put(element.getAsString(), entry.getKey()));
-            } else {
-                map.put(entry.getValue().getAsString(), entry.getKey());
-            }
-        });
-        return map;
-    }
-
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private static void createReverseIdentificationMap(Map<String, String> identificationMap) {
-        Map<String, String> reverseMap = new HashMap<>();
-        identificationMap.forEach((key, value) -> reverseMap.put(value, key));
     }
 
     private static String stripColorCodes(String input) {
@@ -101,7 +77,7 @@ public class NBTExtractor {
         if (nbtTagCompound != null && nbtTagCompound.contains("display")) {
             NbtCompound displayTag = nbtTagCompound.getCompound("display");
             if (displayTag.contains("Lore")) {
-                NbtList loreList = displayTag.getList("Lore", 8); // 8 is the type ID for strings
+                NbtList loreList = displayTag.getList("Lore", 8);
                 for (int i = 0; i < loreList.size(); i++) {
                     String loreItem = loreList.getString(i);
                     JsonObject loreObject = GSON.fromJson(loreItem, JsonObject.class);
